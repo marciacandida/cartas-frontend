@@ -72,16 +72,16 @@ export function ChatList({
                   </Avatar>
                 )}
                 {message.name === selectedUser.name ? (
-                  <span className=" bg-pink-800 text-white p-3 rounded-md max-w-xs">
+                  <span className=" bg-pink-800 text-white text-sm p-3 rounded-md max-w-xs">
                     {message.message}
                   </span>
                 ) : (
-                  <span className=" bg-accent p-3 rounded-md max-w-xs">
+                  <span className=" bg-accent p-3 rounded-md text-sm max-w-xs">
                     {message.message}
                   </span>
                 )}
 
-                {message.name !== selectedUser.name && (
+                {/* {message.name !== selectedUser.name && (
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
                       src={message.avatar}
@@ -90,7 +90,7 @@ export function ChatList({
                       height={6}
                     />
                   </Avatar>
-                )}
+                )} */}
               </div>
             </motion.div>
           ))}

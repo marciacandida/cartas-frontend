@@ -6,6 +6,7 @@ import styles from "../../style/pricing.module.css";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { tiers } from "./pricingData";
 
 export interface PricingTierFrequency {
   id: string;
@@ -14,76 +15,8 @@ export interface PricingTierFrequency {
   priceSuffix: string;
 }
 
-export interface PricingTier {
-  name: string;
-  id: string;
-  href: string;
-  discountPrice: string | Record<string, string>;
-  price: string | Record<string, string>;
-  description: string | React.ReactNode;
-  features: string[];
-  featured?: boolean;
-  highlighted?: boolean;
-  cta: string;
-  soldOut?: boolean;
-}
-
 export const frequencies: PricingTierFrequency[] = [
   { id: "1", value: "1", label: "Monthly", priceSuffix: "" },
-];
-
-export const tiers: PricingTier[] = [
-  {
-    name: "Free",
-    id: "0",
-    href: "#",
-    price: { "1": "$0" },
-    discountPrice: { "1": "" },
-    description: `Get all goodies for free, no credit card required.`,
-    features: [
-      `Multi-platform compatibility`,
-      `Real-time notification system`,
-      `Advanced user permissions`,
-    ],
-    featured: false,
-    highlighted: false,
-    soldOut: false,
-    cta: `Pagar`,
-  },
-  {
-    name: "Pro",
-    id: "1",
-    href: "#",
-    price: { "1": "$3.99" },
-    discountPrice: { "1": "" },
-    description: `When you grow, need more power and flexibility.`,
-    features: [
-      `All in the free plan plus`,
-      `Customizable templates`,
-      `Integration with third-party apps`,
-    ],
-    featured: false,
-    highlighted: true,
-    soldOut: false,
-    cta: `Pagar`,
-  },
-  {
-    name: "Scaler",
-    id: "2",
-    href: "#",
-    price: { "1": "$14.99" },
-    discountPrice: { "1": "" },
-    description: `When you grow, need more power and flexibility.`,
-    features: [
-      `All in the pro plan plus`,
-      `Priority support`,
-      `Enterprise-grade security`,
-    ],
-    featured: true,
-    highlighted: false,
-    soldOut: false,
-    cta: `Pagar`,
-  },
 ];
 
 const CheckIcon = ({ className }: { className?: string }) => {
@@ -103,15 +36,14 @@ const CheckIcon = ({ className }: { className?: string }) => {
   );
 };
 
-export default function PricingPage() {
+export default function Pricing() {
   const [frequency, setFrequency] = useState(frequencies[0]);
 
   const bannerText =
-    "lorem ipsum dolor sit amet, consectetur adip eu et dolor sit   amet, sed diam";
-
+    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates ullam suscipit eos repellendus sunt tempore, ";
   return (
-    <div className={cn("flex flex-col w-full items-center")}>
-      <div className="w-full flex flex-col items-center">
+    <div className={cn("flex w-full  mt-header justify-center  ")}>
+      <div className=" flex w-main flex-col items-center">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col items-center">
           <div className="w-full lg:w-auto mx-auto max-w-4xl lg:text-center">
             <h1 className="text-black dark:text-white text-4xl font-semibold max-w-xs sm:max-w-none md:text-6xl !leading-tight">
@@ -120,15 +52,15 @@ export default function PricingPage() {
           </div>
 
           {bannerText ? (
-            <div className="w-full lg:w-auto flex justify-center my-4">
-              <p className="w-full px-4 text-xs  text-black dark:text-white/80 rounded-xl">
+            <div className="w-[480px] flex justify-center my-4">
+              <p className="text-center text-xs  text-black dark:text-white/80 rounded-xl">
                 {bannerText}
               </p>
             </div>
           ) : null}
 
           {frequencies.length > 1 ? (
-            <div className="mt-16 flex justify-center">
+            <div className="mt-16 flex justify-center ">
               <RadioGroup
                 defaultValue={frequency.value}
                 onValueChange={(value: string) => {
@@ -163,12 +95,12 @@ export default function PricingPage() {
               </RadioGroup>
             </div>
           ) : (
-            <div className="mt-12" aria-hidden="true"></div>
+            <div className="" aria-hidden="true"></div>
           )}
 
           <div
             className={cn(
-              "isolate mx-auto mt-4 mb-28 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none",
+              "isolate mx-auto mt-4 mb-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none",
               tiers.length === 2 ? "lg:grid-cols-2" : "",
               tiers.length === 3 ? "lg:grid-cols-3" : ""
             )}

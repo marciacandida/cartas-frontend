@@ -134,7 +134,7 @@ const RegisterForm = () => {
               <FormItem className="w-full">
                 <FormLabel>Primeiro Nome</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input placeholder="Vlado" {...field} />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -148,7 +148,7 @@ const RegisterForm = () => {
               <FormItem className="w-full">
                 <FormLabel>Apelido</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input placeholder="Santos" {...field} />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -160,7 +160,7 @@ const RegisterForm = () => {
           control={form.control}
           name="birth_date"
           render={({ field }) => (
-            <FormItem className="flex flex-col w-full">
+            <FormItem className="flex flex-col ">
               <FormLabel>Data de nascimento</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -168,7 +168,7 @@ const RegisterForm = () => {
                     <Button
                       variant={"outline"}
                       className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
+                        " pl-3 text-left font-normal",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -227,7 +227,7 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} />
+                <Input placeholder="vlado@xyz.com" {...field} />
               </FormControl>
               <FormDescription></FormDescription>
               <FormMessage />

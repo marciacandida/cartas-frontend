@@ -29,6 +29,7 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        paragraph: "#788293",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -62,6 +63,16 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["Poppins", "ui-sans-serif", "system-ui"],
+      },
+      margin: {
+        header: "64px",
+        sidebar: "256px",
+      },
+      width: {
+        main: "1024px",
       },
       keyframes: {
         "accordion-down": {

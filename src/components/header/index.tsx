@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 const Header = () => {
   const router = useRouter();
   return (
-    <div className="w-screen flex justify-between items-center py-5 px-8 text-sm fixed border border-b-first ">
+    <div className="w-full flex justify-between items-center py-[12px] px-8 text-sm fixed border-B bg-white border-b-first shadow-md">
       <div>
         <p className="text-xl">
           <span className="text-first">Cartas</span> Misticas
@@ -26,7 +26,7 @@ const Header = () => {
           text="Entrar"
           variation="primary"
           px={"40px"}
-          py={"12px"}
+          py={"10px"}
           onClick={() => router.push("/auth")}
         />
       </div>

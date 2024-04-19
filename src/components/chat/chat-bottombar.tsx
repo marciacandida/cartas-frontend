@@ -103,7 +103,7 @@ export default function ChatBottombar({
           onChange={handleInputChange}
           name="message"
           placeholder="Digite aqui....."
-          className=" w-full border rounded-lg flex items-center h-5 resize-none overflow-hidden "
+          className=" w-full border rounded-lg flex items-center h-5 resize-none overflow-hidden focus:border-transparent focus:outline-none outline-none"
         />
 
         <Link
