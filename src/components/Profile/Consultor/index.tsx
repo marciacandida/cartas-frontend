@@ -71,7 +71,7 @@ const ConsultorProfile = () => {
               deleniti suscipit odio quibusdam ipsam.
             </p>
 
-            <div className="mt-7 space-y-2">
+            {/* <div className="mt-7 space-y-2">
               <p className="uppercase font-bold text-xs text-paragraph">
                 rankings
               </p>
@@ -81,7 +81,7 @@ const ConsultorProfile = () => {
                   <StarsRating percentage={rating} />
                 </div>
               </div>
-            </div>
+            </div> */}
             {pathname !== "/profile/consultant/user" && (
               <Link
                 href={"/chat"}
