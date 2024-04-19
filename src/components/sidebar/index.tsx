@@ -87,7 +87,7 @@ export function Sidebar({ className }: ISidbar) {
                 <h1 className="font-semibold text-black text-start text-[15px]">
                   {"Kelvin"}
                 </h1>
-                <p className="truncate text-sm text-paragraph">
+                <p className="truncate text-xs text-paragraph">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia
                   nesciunt, sint hic ducimus consectetur veniam quidem, at optio
                   ratione eaque ex magni impedit saepe laudantium! Architecto

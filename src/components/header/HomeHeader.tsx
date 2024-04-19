@@ -80,8 +80,8 @@ const HomeHeader = () => {
                 "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
               }
               alt="foto de perfil"
-              width={40}
-              height={40}
+              width={35}
+              height={35}
               className="rounded-full"
             />
           </div>
