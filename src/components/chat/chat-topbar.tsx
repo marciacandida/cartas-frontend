@@ -72,12 +72,17 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
   return (
     <div className="w-full flex p-4 justify-between items-center border-b">
       <div className="max-lg:flex max-lg:flex-col max-lg:space-y-5">
-        <Link href={"/home"} className="lg:hidden ">
-          <p className="text-xl">
-            <span className="text-first">Cartas</span>{" "}
-            <span className="text-black">Misticas </span>
-          </p>
-        </Link>
+        <div className="flex">
+          <Link href={"/chat"} className="lg:hidden mr-3">
+            <ChevronLeft />
+          </Link>
+          <Link href={"/home"} className="lg:hidden ">
+            <p className="text-xl">
+              <span className="text-first">Cartas</span>{" "}
+              <span className="text-black">Misticas </span>
+            </p>
+          </Link>
+        </div>
 
         <Link href={"/profile"}>
           <div className="flex items-center gap-2">
@@ -157,7 +162,7 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialog open={!isRunning}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-sm:rounded-md max-sm:mx-0 max-sm:px-2 max-sm:w-full">
           <AlertDialogHeader>
             <AlertDialogTitle>Os seus minutos acabaram</AlertDialogTitle>
             <AlertDialogDescription>
@@ -165,14 +170,14 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
               ex ea molestiae aut distinctio.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <div className="flex w-full justify-end max-sm:justify-center">
             <Link
               href={`/pricing`}
               className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
             >
               Comprar mais minutos
             </Link>
-          </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
     </div>

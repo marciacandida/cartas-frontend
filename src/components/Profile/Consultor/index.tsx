@@ -21,7 +21,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
     <section className="flex items-center justify-center  mt-header">
       <div className="flex flex-col  mt-14 mb-10 max-lg:px-5 ">
         <div className="flex rounded-lg bg-gray-100 p-10 max-md:p-5 w-full lg:w-main  space-x-16 max-md:space-x-7 relative max-sm:flex-col max-sm:space-x-0 max-sm:space-y-5">
-          <section className="lg:w-[500px] max-sm:justify-center flex">
+          <section className="lg:w-[500px] max-sm:justify-centermax-sm:flex">
             <img
               src={
                 "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
