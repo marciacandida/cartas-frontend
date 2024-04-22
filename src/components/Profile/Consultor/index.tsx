@@ -19,37 +19,38 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
 
   return (
     <section className="flex items-center justify-center  mt-header">
-      <div className="flex flex-col  mt-14 mb-10">
-        <div className="flex rounded-lg bg-gray-100 p-10 w-main space-x-16 relative">
-          <section className="w-[500px] relative">
+      <div className="flex flex-col  mt-14 mb-10 max-lg:px-5 ">
+        <div className="flex rounded-lg bg-gray-100 p-10 max-md:p-5 w-full lg:w-main  space-x-16 max-md:space-x-7 relative max-sm:flex-col max-sm:space-x-0 max-sm:space-y-5">
+          <section className="lg:w-[500px] max-sm:justify-center flex">
             <img
               src={
                 "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
               }
               alt="foto de perfil"
-              width={150}
-              height={150}
-              className="rounded-full w-full"
+              width={200}
+              height={200}
+              className="rounded-full md:w-full relative"
             />
             <EditPhoto />
           </section>
           <section>
-            <div className="flex space-x-4 items-center ">
-              <h1 className="font-semibold text-2xl">{`${user?.firstName} ${user?.lastName}`}</h1>
-              <p className="text-paragraph flex items-center space-x-1 text-xs font-medium">
+            <div className="flex space-x-4 items-center max-md:flex-col-reverse max-md:items-start max-md:space-x-0 max-md:space-y-reverse max-md:space-y-2">
+              <h1 className="font-semibold text-2xl max-md:text-xl">{`${user?.firstName} ${user?.lastName}`}</h1>
+              <p className="text-paragraph flex items-center space-x-1 text-xs font-medium ">
                 <MapPin className="w-4 h-4" />
-                <span>Ho Chi Minh City</span>
+                <span className="max-md:text-xs">Ho Chi Minh City</span>
               </p>
             </div>
             {pathname !== "/profile/consultant/user" ? (
-              <button className="text-paragraph font-semibold text-xs flex items-center space-x-1  absolute right-7 top-8">
-                <BookmarkIcon className="w-4 h-4" />
-                <span>Salvar</span>
-              </button>
+              // <button className="text-paragraph font-semibold text-xs flex items-center space-x-1  absolute right-10 top-8">
+              //   <BookmarkIcon className="w-4 h-4" />
+              //   <span>Salvar</span>
+              // </button>
+              <></>
             ) : (
               <EditProfile />
             )}
-            <p className="font-bold text-sm text-first mt-1">
+            <p className="font-bold text-sm text-first mt-1 max-md:text-xs">
               Software Developer
             </p>
             <p className="text-paragraph text-sm font-normal mt-7 w-[90%]">
@@ -67,15 +68,17 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
                 </div>
               </div>
             </div> */}
-            {pathname !== "/profile/consultant/user" && (
-              <Link
-                href={`/chat/${user_id}`}
-                className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg absolute right-7 top-52 hover:bg-first"
-              >
-                Enviar mensagem
-              </Link>
-            )}
-            <div className="mt-16">
+            <div className="flex w-full justify-end max-sm:justify-start">
+              {pathname !== "/profile/consultant/user" && (
+                <Link
+                  href={`/chat/${user_id}`}
+                  className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
+                >
+                  Enviar mensagem
+                </Link>
+              )}
+            </div>
+            <div className="mt-10">
               <h1 className="text-xl font-semibold">Consultorias</h1>
               <div className="space-y-3 mt-5 ">
                 {consultorias.map((data) => (

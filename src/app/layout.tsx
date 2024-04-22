@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./reduxProvider";
+import { RecoilRoot } from "recoil";
+import RecoilContextProvider from "./recoilContextProvider";
 
 const poppins = Poppins({ weight: "400", subsets: ["latin"] });
 
@@ -18,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ReduxProvider>
-        <body className={poppins.className}>{children}</body>
+        <RecoilContextProvider>
+          <body className={poppins.className}>{children}</body>
+        </RecoilContextProvider>
       </ReduxProvider>
     </html>
   );

@@ -1,6 +1,7 @@
 import Footer from "@/components/footer";
 import HomeHeader from "@/components/header/HomeHeader";
 import Pricing from "@/components/Pricing";
+import { HomeSidebar } from "@/components/sidebar/homeSideBar";
 import { Metadata } from "next";
 import React from "react";
 
@@ -13,6 +14,7 @@ function page() {
   return (
     <main>
       <HomeHeader />
+      <HomeSidebar />
       <Pricing />
       <Footer />
     </main>

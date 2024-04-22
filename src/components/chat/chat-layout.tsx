@@ -56,7 +56,7 @@ export function ChatLayout({
           sizes
         )}`;
       }}
-      className="max-h-screen items-stretch ml-sidebar"
+      className="max-h-screen items-stretch lg:ml-sidebar"
     >
       <ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
         <Chat id={id} selectedUser={selectedUser} isMobile={isMobile} />

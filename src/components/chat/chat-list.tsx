@@ -35,7 +35,7 @@ export function ChatList({
   const receiver = useGetOneUser(id);
 
   return (
-    <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
+    <div className=" overflow-y-auto overflow-x-hidden h-full flex flex-col mb-24">
       <div
         ref={messagesContainerRef}
         className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col"

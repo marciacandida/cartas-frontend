@@ -8,6 +8,7 @@ import {
   BadgeDollarSign,
   BellIcon,
   CircleDollarSign,
+  MenuIcon,
   MessageCircleIcon,
   SearchIcon,
 } from "lucide-react";
@@ -23,18 +24,21 @@ import useSocket from "@/hooks/useSocket";
 import { useSelector } from "react-redux";
 import { selectUserId } from "@/lib/redux/features/user/userSlice";
 import { useGetUser } from "@/hooks/useGetUser";
+import { MenuState } from "@/lib/recoil";
+import { useRecoilState } from "recoil";
 
 const HomeHeader = () => {
   const router = useRouter();
   const { isConnected, socket } = useSocket();
   const userId = useSelector(selectUserId);
   const user = useGetUser();
+  const [opens, setOpens] = useRecoilState(MenuState);
 
   console.log(isConnected);
   console.log(userId);
   console.log(user);
   return (
-    <div className="fixed left-0  z-20 top-0 right-0 flex justify-between bg-white items-center h-16 px-4 text-sm border-b border-b-first  shadow-md">
+    <div className="fixed left-0  z-20 top-0 right-0 flex justify-between bg-white items-center h-16 px-4 text-sm border-b border-b-first  shadow-md transition-all">
       <div className="py-2">
         <Link href={"/home"}>
           <p className="text-xl">
@@ -43,45 +47,47 @@ const HomeHeader = () => {
           </p>
         </Link>
       </div>
-      <div className="space-x-5 flex items-center ">
-        <div className="flex max-w-sm items-center space-x-2 p-2 pl-4 bg-gray-100 rounded-full ">
+      <div className="space-x-5 flex items-center transition-all">
+        <div className="flex max-w-sm items-center space-x-2 p-2 pl-4 bg-gray-100 rounded-full max-md:hidden">
           <SearchIcon className="w-4 h-4" />
           <input
             placeholder="Pesquisar"
             className=" bg-transparent border-none text-sm focus:border-transparent focus:outline-none"
           />
         </div>
-        <TooltipProvider>
-          <Tooltip delayDuration={200}>
-            <TooltipTrigger>
-              <Link href={"/pricing"}>
-                <div className="p-2 bg-gray-100 rounded-full ">
-                  <CircleDollarSign className="w-5 h-5 " />
-                </div>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent className="-ml-7">
-              <p>Comprar creditos</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip delayDuration={200}>
-            <TooltipTrigger>
-              <Link href={"/chat"}>
-                <div className="p-2 bg-gray-100 rounded-full ">
-                  <MessageCircleIcon className="w-5 h-5 " />
-                </div>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent className="-ml-7">
-              <p>Conversas</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <div className="m-0 p-0 max-md:hidden space-x-5 transition-all">
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger>
+                <Link href={"/pricing"}>
+                  <div className="p-2 bg-gray-100 rounded-full ">
+                    <CircleDollarSign className="w-5 h-5 " />
+                  </div>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent className="-ml-7">
+                <p>Comprar creditos</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger>
+                <Link href={"/chat"}>
+                  <div className="p-2 bg-gray-100 rounded-full ">
+                    <MessageCircleIcon className="w-5 h-5 " />
+                  </div>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent className="-ml-7">
+                <p>Conversas</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <Link
           href={"/profile/consultant/user"}
           className="flex items-center space-x-2 "
         >
-          <div>
+          <div className="max-md:hidden">
             <p className=" text-xs">{`${user.user?.firstName} ${user.user?.lastName}`}</p>
             <p className="text-paragraph text-[11px]">
               {user.user?.type === "CLIENT" ? "Cliente" : "Consultor"}
@@ -99,6 +105,14 @@ const HomeHeader = () => {
             />
           </div>
         </Link>
+        <div className="md:hidden">
+          <div
+            className="p-2 bg-gray-100 rounded-full cursor-pointer"
+            onClick={() => setOpens(true)}
+          >
+            <MenuIcon className="w-5 h-5 " />
+          </div>
+        </div>
       </div>
     </div>
   );

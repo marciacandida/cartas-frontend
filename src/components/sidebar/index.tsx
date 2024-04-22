@@ -11,17 +11,19 @@ import {
 import { ChevronsUpDown, SearchIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import useGetUsers from "@/hooks/usuGetUsers";
 
 interface ISidbar {
   className?: string;
 }
 
 export function Sidebar({ className }: ISidbar) {
+  const { users } = useGetUsers({ query: "CLIENT" });
   const pathname = usePathname();
   return (
     <div
       className={cn(
-        "fixed top-0 bottom-0 left-0 z-0 pb-12 w-64 border-r border-first  bg-white"
+        "fixed top-0 bottom-0 left-0 z-0 pb-12 w-64 border-r border-first  bg-white max-lg:hidden"
       )}
     >
       <div className="space-y-4 py-[10px]">
@@ -69,35 +71,36 @@ export function Sidebar({ className }: ISidbar) {
             Conversas
           </h2>
           <div className="p-2">
-            {/* {playlists?.map((playlist) => ( */}
-            <Link
-              href={"/chat"}
-              className={`w-full h-14 flex object-cover p-2 rounded-lg transition-all hover:bg-accent ${
-                pathname === "/chat" && "bg-accent"
-              }`}
-            >
-              <img
-                src={
-                  "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-                }
-                alt="foto de perfil"
-                className="rounded-full"
-              />
-              <div className="ml-2 w-44">
-                <h1 className="font-semibold text-black text-start text-[15px]">
-                  {"Kelvin"}
-                </h1>
-                <p className="truncate text-xs text-paragraph">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia
-                  nesciunt, sint hic ducimus consectetur veniam quidem, at optio
-                  ratione eaque ex magni impedit saepe laudantium! Architecto
-                  repellat corporis est quod.
-                </p>
-              </div>
-              {/* <ListMusic className="mr-2 h-4 w-4" /> */}
-              {/* {playlist} */}
-            </Link>
-            {/* ))} */}
+            {users.map((user, idx) => (
+              <Link
+                href={`/chat/${user.id}`}
+                className={`w-full h-14 flex object-cover p-2 rounded-lg transition-all hover:bg-accent ${
+                  pathname === `/chat/${user.id}` && "bg-accent"
+                }`}
+                key={idx}
+              >
+                <img
+                  src={
+                    "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
+                  }
+                  alt="foto de perfil"
+                  className="rounded-full"
+                />
+                <div className="ml-2 w-44">
+                  <h1 className="font-semibold text-black text-start text-[15px]">
+                    {user.firstName}
+                  </h1>
+                  <p className="truncate text-xs text-paragraph">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                    Quia nesciunt, sint hic ducimus consectetur veniam quidem,
+                    at optio ratione eaque ex magni impedit saepe laudantium!
+                    Architecto repellat corporis est quod.
+                  </p>
+                </div>
+                {/* <ListMusic className="mr-2 h-4 w-4" /> */}
+                {/* {playlist} */}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

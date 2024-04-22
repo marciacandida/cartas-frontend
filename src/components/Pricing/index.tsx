@@ -43,16 +43,16 @@ export default function Pricing() {
     "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptates ullam suscipit eos repellendus sunt tempore, ";
   return (
     <div className={cn("flex w-full  mt-header justify-center  ")}>
-      <div className=" flex w-main flex-col items-center">
+      <div className=" flex w-full lg:w-main  flex-col items-center">
         <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col items-center">
-          <div className="w-full lg:w-auto mx-auto max-w-4xl lg:text-center">
-            <h1 className="text-black dark:text-white text-4xl font-semibold max-w-xs sm:max-w-none md:text-6xl !leading-tight">
+          <div className="">
+            <h1 className="text-black mt-10 dark:text-white text-4xl font-semibold max-w-xs sm:max-w-none md:text-6xl !leading-tight">
               Preços
             </h1>
           </div>
 
           {bannerText ? (
-            <div className="w-[480px] flex justify-center my-4">
+            <div className="md:w-[480px] flex justify-center my-4">
               <p className="text-center text-xs  text-black dark:text-white/80 rounded-xl">
                 {bannerText}
               </p>
@@ -100,9 +100,7 @@ export default function Pricing() {
 
           <div
             className={cn(
-              "isolate mx-auto mt-4 mb-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none",
-              tiers.length === 2 ? "lg:grid-cols-2" : "",
-              tiers.length === 3 ? "lg:grid-cols-3" : ""
+              "isolate mt-4 mb-10 grid max-w-md lg:grid-cols-3 md:grid-cols-2 gap-8 mx-0 max-w-none"
             )}
           >
             {tiers.map((tier) => (

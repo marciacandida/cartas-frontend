@@ -69,7 +69,7 @@ export default function ChatBottombar({
   };
 
   return (
-    <div className="p-2 flex justify-between w-full items-center gap-2">
+    <div className="p-2 flex justify-between   items-center gap-2 absolute bottom-0 left-0 lg:left-64 right-0">
       <AnimatePresence initial={false}>
         <EmojiPicker
           onChange={(value) => {

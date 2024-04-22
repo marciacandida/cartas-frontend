@@ -73,6 +73,7 @@ const config = {
       },
       width: {
         main: "1024px",
+        sidebar: "256px",
       },
       keyframes: {
         "accordion-down": {
