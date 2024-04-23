@@ -1,4 +1,4 @@
-// File: /Users/celsomabunda/Documents/upwork/paulo/cartas-frontend/src/app/chat/page.tsx
+// File: /Users/celsomabunda/Documents/upwork/paulo/Ciganos-frontend/src/app/chat/page.tsx
 import * as entry from "../../../../src/app/chat/[id]/page.jsx";
 import type {
   ResolvingMetadata,

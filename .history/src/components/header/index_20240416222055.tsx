@@ -9,7 +9,7 @@ const Header = () => {
     <div className="w-screen flex justify-between items-center py-5 px-8 text-sm fixed border border-b-first ">
       <div>
         <p className="text-xl">
-          <span className="text-first">Cartas</span> Misticas
+          <span className="text-first">Ciganos</span> Encantados
         </p>
       </div>
       <div className="flex space-x-5  text-first">

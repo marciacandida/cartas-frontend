@@ -39,59 +39,83 @@ const formSchema = z
   .object({
     email: z.string().email({ message: "Email invalido" }),
     password: z.string().min(8, {
-      message: "password deve possuir pelo menos 8 caracteres",
+      message: "A password deve possuir pelo menos 8 caracteres",
     }),
     confirmPassword: z.string().min(8, {
-      message: "password deve possuir pelo menos 8 caracteres",
+      message: "A password deve possuir pelo menos 8 caracteres",
     }),
     birth_date: z.date({
       required_error: "Insira a sua data de nascimento",
     }),
     role: z.string({
-      required_error: "insira o seu tipo de usuário ",
+      required_error: "Insira o seu tipo de usuário ",
     }),
     firstName: z.string({
-      required_error: "insira o seu tipo de usuário ",
+      required_error: "Insira o seu tipo de usuário ",
     }),
     lastName: z.string({
-      required_error: "insira o seu tipo de usuário ",
+      required_error: "Insira o seu tipo de usuário ",
     }),
   })
-  .superRefine(({ confirmPassword, password }, checkPassComplexity) => {
-    const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
-    const containsLowercase = (ch: string) => /[a-z]/.test(ch);
-    const containsSpecialChar = (ch: string) =>
-      /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
-    let countOfUpperCase = 0,
-      countOfLowerCase = 0,
-      countOfNumbers = 0,
-      countOfSpecialChar = 0;
-    for (let i = 0; i < password.length; i++) {
-      let ch = password.charAt(i);
-      if (!isNaN(+ch)) countOfNumbers++;
-      else if (containsUppercase(ch)) countOfUpperCase++;
-      else if (containsLowercase(ch)) countOfLowerCase++;
-      else if (containsSpecialChar(ch)) countOfSpecialChar++;
+  .refine(
+    (values) => {
+      return values.password === values.confirmPassword;
+    },
+    {
+      message: "As passwords devem coincidir!",
+      path: ["confirmPassword"],
     }
-    if (
-      countOfLowerCase < 1 ||
-      countOfUpperCase < 1 ||
-      countOfSpecialChar < 1 ||
-      countOfNumbers < 1
-    ) {
-      checkPassComplexity.addIssue({
-        code: "custom",
-        message:
-          "Password deve possuir pelo menos um Letra maíscula, um numero e um caracter especial",
-      });
-    }
-    if (confirmPassword !== password) {
-      checkPassComplexity.addIssue({
-        code: "custom",
-        message: "The passwords did not match",
-      });
-    }
-  });
+  );
+// .refine(
+//   async (values) => {
+//     try {
+//       const response = await axiosInstance.get(`/user/${values.email}`);
+//       return !response.data.exists; // Se exists for false, o email é válido
+//     } catch (error) {
+//       console.error("Erro ao verificar o email:", error);
+//       return false; // Em caso de erro, considere o email inválido
+//     }
+//   },
+//   {
+//     message: "Este email já está em uso",
+//     path: ["email"],
+//   }
+// );
+// .superRefine(({ confirmPassword, password }, checkPassComplexity) => {
+//   const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
+//   const containsLowercase = (ch: string) => /[a-z]/.test(ch);
+//   const containsSpecialChar = (ch: string) =>
+//     /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
+//   let countOfUpperCase = 0,
+//     countOfLowerCase = 0,
+//     countOfNumbers = 0,
+//     countOfSpecialChar = 0;
+//   for (let i = 0; i < password.length; i++) {
+//     let ch = password.charAt(i);
+//     if (!isNaN(+ch)) countOfNumbers++;
+//     else if (containsUppercase(ch)) countOfUpperCase++;
+//     else if (containsLowercase(ch)) countOfLowerCase++;
+//     else if (containsSpecialChar(ch)) countOfSpecialChar++;
+//   }
+//   if (
+//     countOfLowerCase < 1 ||
+//     countOfUpperCase < 1 ||
+//     countOfSpecialChar < 1 ||
+//     countOfNumbers < 1
+//   ) {
+//     checkPassComplexity.addIssue({
+//       code: "custom",
+//       message:
+//         "Password deve possuir pelo menos um Letra maíscula, um numero e um caracter especial",
+//     });
+//   }
+//   if (confirmPassword !== password) {
+//     checkPassComplexity.addIssue({
+//       code: "custom",
+//       message: "The passwords did not match",
+//     });
+//   }
+// });
 
 export interface IUserResponse {
   user: {
@@ -266,7 +290,11 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} type="password" />
+                <Input
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+                  {...field}
+                  type="password"
+                />
               </FormControl>
               <FormDescription></FormDescription>
               <FormMessage />
@@ -280,7 +308,11 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Confirmar Password</FormLabel>
               <FormControl>
-                <Input placeholder="" {...field} type="password" />
+                <Input
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+                  {...field}
+                  type="password"
+                />
               </FormControl>
               <FormDescription></FormDescription>
               <FormMessage />

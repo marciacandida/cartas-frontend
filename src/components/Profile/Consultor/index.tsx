@@ -11,6 +11,9 @@ import StarsRating from "./rating";
 import ConsultoriasCard from "@/components/cards/consultoriasCard";
 import { consultorias } from "./consultoriasData";
 import { useGetOneUser } from "@/hooks/useGetOneUser";
+import { useGetUser } from "@/hooks/useGetUser";
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   const pathname = usePathname();
@@ -21,16 +24,16 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
     <section className="flex items-center justify-center  mt-header">
       <div className="flex flex-col  mt-14 mb-10 max-lg:px-5 ">
         <div className="flex rounded-lg bg-gray-100 p-10 max-md:p-5 w-full lg:w-main  space-x-16 max-md:space-x-7 relative max-sm:flex-col max-sm:space-x-0 max-sm:space-y-5">
-          <section className="lg:w-[500px] max-sm:justify-centermax-sm:flex">
-            <img
-              src={
-                "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-              }
-              alt="foto de perfil"
-              width={200}
-              height={200}
-              className="rounded-full md:w-full relative"
-            />
+          <section className="lg:w-[500px] max-sm:justify-center max-sm:flex relative">
+            <Avatar className="object-cover w-60 h-60 max-lg:w-40 max-lg:h-40 rounded-full z-10 border border-gray-300 ">
+              <AvatarImage
+                // src={
+                //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
+                // }
+                alt="foto de perfil"
+              ></AvatarImage>
+              <AvatarFallback className="text-3xl">{`${user?.firstName[0].toUpperCase()} ${user?.lastName[0].toUpperCase()}`}</AvatarFallback>
+            </Avatar>
             <EditPhoto />
           </section>
           <section>

@@ -12,7 +12,7 @@ const HomeHeader = () => {
     <div className="w-full flex justify-between items-center py-5 px-8 text-sm border border-b-pink-800 ">
       <div>
         <p className="text-xl">
-          <span className="text-pink-800">Cartas</span> Misticas
+          <span className="text-pink-800">Ciganos</span> Encantados
         </p>
       </div>
       <div className="flex space-x-5  text-pink-800">

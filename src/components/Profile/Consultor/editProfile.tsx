@@ -19,7 +19,7 @@ const EditProfile = () => {
   return (
     <Dialog>
       <DialogTrigger
-        className="absolute right-7 top-8"
+        className="absolute right-7 top-8 max-sm:top-52"
         onClick={() => setOpen(true)}
       >
         <div className="p-[6px] border-[1.5px] border-first rounded-full">

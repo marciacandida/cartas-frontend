@@ -6,7 +6,7 @@ const Header = () => {
     <div className="w-screen flex justify-between items-center py-5 px-8 text-sm fixed">
       <div>
         <p className="text-xl">
-          <span className="text-pink-600">Cartas</span> Misticas
+          <span className="text-pink-600">Ciganos</span> Encantados
         </p>
       </div>
       <div className="flex space-x-5  text-pink-600">

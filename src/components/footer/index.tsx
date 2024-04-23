@@ -34,7 +34,7 @@ const Footer = () => {
             </div>
           </Link>
         </div>
-        <p className="text-xs">Cartas Misticas, Inc. 2024.</p>
+        <p className="text-xs">&copy; Ciganos Encantados, Inc. 2024.</p>
       </div>
     </section>
   );

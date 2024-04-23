@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <div className="w-screen flex justify-between items-center py-5 px-8 text-sm">
       <div>
-        <p>Cartas Misticas</p>
+        <p>Ciganos Encantados</p>
       </div>
       <div className="flex space-x-5  text-pink-600">
         <p>

@@ -7,7 +7,7 @@ const Header = () => {
       <div>
         <p>
           {" "}
-          <span className="text-pink-600">Cartas</span> Misticas
+          <span className="text-pink-600">Ciganos</span> Encantados
         </p>
       </div>
       <div className="flex space-x-5  text-pink-600">

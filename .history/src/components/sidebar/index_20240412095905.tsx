@@ -15,7 +15,7 @@ export function Sidebar({ className }: ISidbar) {
       <div className="space-y-4 py-4">
         <div>
           <p className="text-xl">
-            <span className="text-pink-800">Cartas</span> Misticas
+            <span className="text-pink-800">Ciganos</span> Encantados
           </p>
         </div>
         <div className="px-4 py-2">

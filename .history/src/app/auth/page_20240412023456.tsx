@@ -6,7 +6,7 @@ const Auth = () => {
   return (
     <div className="flex flex-col w-screen h-screen items-center justify-center space-y-5">
       <p className="text-xl">
-        <span className="text-pink-800">Cartas</span> Misticas
+        <span className="text-pink-800">Ciganos</span> Encantados
       </p>
       <AuthForms />
     </div>

@@ -1,9 +1,11 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { ChevronsUpDown, SearchIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import useGetUsers from "@/hooks/usuGetUsers";
+import { useMediaQuery, useMediaQueries } from "@react-hook/media-query";
+import { useEffect } from "react";
 
 interface ISidbar {
   className?: string;
@@ -12,6 +14,15 @@ interface ISidbar {
 export function MobileView({ className }: ISidbar) {
   const { users } = useGetUsers({ query: "CLIENT" });
   const pathname = usePathname();
+
+  const matches = useMediaQuery("only screen and (min-width: 1024px)");
+  const router = useRouter();
+  useEffect(() => {
+    if (matches) {
+      router.push(`/chat/${users[0]?.id}`);
+    }
+  }, [matches, router]);
+
   return (
     <div className={cn("pb-12 w-full")}>
       <div className="">
@@ -19,8 +30,8 @@ export function MobileView({ className }: ISidbar) {
           <div className="py-2 px-4">
             <Link href={"/home"}>
               <p className="text-xl">
-                <span className="text-first">Cartas</span>{" "}
-                <span className="text-black">Misticas </span>
+                <span className="text-first">Ciganos</span>{" "}
+                <span className="text-black">Encantados </span>
               </p>
             </Link>
           </div>

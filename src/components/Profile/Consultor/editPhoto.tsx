@@ -18,9 +18,9 @@ const EditPhoto = () => {
       {pathname === "/profile/consultant/user" && (
         <>
           <Dialog>
-            <DialogTrigger className="absolute right-2 top-32">
+            <DialogTrigger className="absolute sm:right-2 top-44 max-lg:top-28 max-sm:left-0 z-50">
               <div className="p-[6px] border-[1.5px] bg-gray-100  border-first rounded-full">
-                <Edit2 className="text-pink-800" size={15} />
+                <Edit2 className="text-first" size={15} />
               </div>
             </DialogTrigger>
             <DialogContent className="px-5">

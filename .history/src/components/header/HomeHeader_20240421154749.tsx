@@ -34,8 +34,8 @@ const HomeHeader = () => {
       <div className="py-2">
         <Link href={"/home"}>
           <p className="text-xl">
-            <span className="text-first">Cartas</span>{" "}
-            <span className="text-black">Misticas </span>
+            <span className="text-first">Ciganos</span>{" "}
+            <span className="text-black">Encantados </span>
           </p>
         </Link>
       </div>

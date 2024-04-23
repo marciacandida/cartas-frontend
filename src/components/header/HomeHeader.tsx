@@ -26,6 +26,9 @@ import { selectUserId } from "@/lib/redux/features/user/userSlice";
 import { useGetUser } from "@/hooks/useGetUser";
 import { MenuState } from "@/lib/recoil";
 import { useRecoilState } from "recoil";
+import useGetUsers from "@/hooks/usuGetUsers";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { AvatarImage } from "@radix-ui/react-avatar";
 
 const HomeHeader = () => {
   const router = useRouter();
@@ -33,6 +36,7 @@ const HomeHeader = () => {
   const userId = useSelector(selectUserId);
   const user = useGetUser();
   const [opens, setOpens] = useRecoilState(MenuState);
+  const { users } = useGetUsers({ query: "CLIENT" });
 
   console.log(isConnected);
   console.log(userId);
@@ -42,8 +46,8 @@ const HomeHeader = () => {
       <div className="py-2">
         <Link href={"/home"}>
           <p className="text-xl">
-            <span className="text-first">Cartas</span>{" "}
-            <span className="text-black">Misticas </span>
+            <span className="text-first">Ciganos</span>{" "}
+            <span className="text-black">Encantados </span>
           </p>
         </Link>
       </div>
@@ -55,7 +59,7 @@ const HomeHeader = () => {
             className=" bg-transparent border-none text-sm focus:border-transparent focus:outline-none"
           />
         </div>
-        <div className="m-0 p-0 max-md:hidden space-x-5 transition-all">
+        <div className="m-0 p-0 max-md:hidden space-x-5 transition-all flex items-center">
           <TooltipProvider>
             <Tooltip delayDuration={200}>
               <TooltipTrigger>
@@ -71,7 +75,7 @@ const HomeHeader = () => {
             </Tooltip>
             <Tooltip delayDuration={200}>
               <TooltipTrigger>
-                <Link href={"/chat"}>
+                <Link href={`/chat/${users[0]?.id}`}>
                   <div className="p-2 bg-gray-100 rounded-full ">
                     <MessageCircleIcon className="w-5 h-5 " />
                   </div>
@@ -93,17 +97,16 @@ const HomeHeader = () => {
               {user.user?.type === "CLIENT" ? "Cliente" : "Consultor"}
             </p>
           </div>
-          <div>
-            <img
-              src={
-                "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-              }
+          <Avatar>
+            <AvatarImage
+              // src={
+              //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
+              // }
               alt="foto de perfil"
-              width={35}
-              height={35}
-              className="rounded-full"
-            />
-          </div>
+              className="object-cover w-9 h-9 rounded-full z-10"
+            ></AvatarImage>
+            <AvatarFallback className="">{`${user.user?.firstName[0].toUpperCase()} ${user.user?.lastName[0].toUpperCase()}`}</AvatarFallback>
+          </Avatar>
         </Link>
         <div className="md:hidden">
           <div
