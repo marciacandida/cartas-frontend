@@ -43,6 +43,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Input } from "../ui/input";
 
 interface ChatTopbarProps {
   selectedUser?: IUser;
@@ -169,14 +170,24 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
               ex ea molestiae aut distinctio.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <div className="flex w-full justify-end max-sm:justify-center">
-            <Link
-              href={`/pricing`}
-              className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
-            >
-              Comprar mais minutos
-            </Link>
-          </div>
+          <form className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Input type="number" required min={10} value={10} />
+              <span>min</span>
+            </div>
+
+            <div className="flex w-full justify-end max-sm:justify-center space-x-3">
+              <Link
+                href={`/pricing`}
+                className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
+              >
+                Comprar mais minutos
+              </Link>
+              <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                <span>Continuar</span>
+              </button>
+            </div>
+          </form>
         </AlertDialogContent>
       </AlertDialog>
     </div>

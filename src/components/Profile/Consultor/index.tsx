@@ -14,6 +14,16 @@ import { useGetOneUser } from "@/hooks/useGetOneUser";
 import { useGetUser } from "@/hooks/useGetUser";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   const pathname = usePathname();
@@ -70,12 +80,27 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
             </div> */}
             <div className="flex w-full justify-end max-sm:justify-start">
               {user?.id === loggedUser.user?.id ? null : (
-                <Link
-                  href={`/chat/${user_id}`}
-                  className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
-                >
-                  Enviar mensagem
-                </Link>
+                <Dialog>
+                  <DialogTrigger className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                    Enviar mensagem
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Insira os minutos da tua sessão</DialogTitle>
+                    </DialogHeader>
+                    <form className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Input type="number" required min={10} value={10} />
+                        <span>min</span>
+                      </div>
+                      <DialogFooter>
+                        <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                          <span>Continuar</span>
+                        </button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
               )}
             </div>
             <div className="mt-10">
