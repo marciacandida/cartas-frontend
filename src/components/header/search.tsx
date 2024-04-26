@@ -12,6 +12,7 @@ import useGetUsers from "@/hooks/usuGetUsers";
 import { useGetUser } from "@/hooks/useGetUser";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useRouter } from "next/navigation";
 
 const Search = () => {
   const { users } = useGetUsers({ query: "CLIENT" });
@@ -53,6 +54,8 @@ const Search = () => {
     };
   }, []);
 
+  const router = useRouter();
+
   return (
     <DropdownMenu open={open} modal={false}>
       <div
@@ -68,16 +71,19 @@ const Search = () => {
           onChange={handleSearchChange}
           onKeyPress={handleKeyPress}
           className="bg-transparent border-none text-xs py-0.5 focus:border-transparent focus:outline-none"
-        />{" "}
-        {/* Close the dropdown menu on outside click */}
+        />
         {searchQuery !== "" && (
-          <DropdownMenuContent className=" mt-2 ml-44">
+          <DropdownMenuContent ref={dropdownRef} className=" mt-2 ml-44">
             {filteredUsers.length > 0 ? (
               filteredUsers.map((user, idx) => (
                 <Link
                   href={`/chat/${user.id}`}
                   className={`w-full h-14 flex object-cover p-2 rounded-lg transition-all hover:bg-accent`}
                   key={idx}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push(`/chat/${user.id}`); // Navigate to the chat URL
+                  }}
                 >
                   <Avatar>
                     <AvatarImage
