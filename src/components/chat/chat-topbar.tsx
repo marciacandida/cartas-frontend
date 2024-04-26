@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UserData } from "@/app/data";
 import {
   ChevronLeft,
@@ -86,16 +86,15 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
 
         <Link href={"/profile"}>
           <div className="flex items-center gap-2">
-            <Avatar className="flex justify-center items-center">
+            <Avatar>
               <AvatarImage
-                src={
-                  "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-                }
-                alt={selectedUser?.firstName}
-                width={6}
-                height={6}
-                className="w-10 h-10 "
-              />
+                // src={
+                //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
+                // }
+                alt="foto de perfil"
+                className="object-cover w-9 h-9 rounded-full z-10"
+              ></AvatarImage>
+              <AvatarFallback className="">{`${selectedUser?.firstName[0].toUpperCase()}${selectedUser?.lastName[0].toUpperCase()}`}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col items-start">
               <span className="font-medium">{`${selectedUser?.firstName} ${selectedUser?.lastName}`}</span>

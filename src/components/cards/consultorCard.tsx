@@ -23,7 +23,7 @@ const ConsultorCard = ({ id, firstName, lastName }: IConsultorProps) => {
             alt=""
             className="object-cover w-24 h-24 rounded-full z-10"
           ></AvatarImage>
-          <AvatarFallback className="text-2xl">{`${firstName[0].toUpperCase()} ${lastName[0].toUpperCase()}`}</AvatarFallback>
+          <AvatarFallback className="text-2xl">{`${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}`}</AvatarFallback>
         </Avatar>
       </CardHeader>
       <CardContent className=" space-y-2 px-2 text-center">

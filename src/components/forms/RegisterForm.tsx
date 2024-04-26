@@ -260,8 +260,8 @@ const RegisterForm = () => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="CONSULTOR">consultor</SelectItem>
-                  <SelectItem value="CLIENT">cliente</SelectItem>
+                  <SelectItem value="CONSULTOR">Consultor</SelectItem>
+                  <SelectItem value="CLIENT">Cliente</SelectItem>
                 </SelectContent>
               </Select>
 

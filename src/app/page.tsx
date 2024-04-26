@@ -8,7 +8,6 @@ export default function Home() {
     <main className="flex  min-h-screen flex-col items-center  ">
       <Header />
       <Hero />
-      <Footer />
     </main>
   );
 }

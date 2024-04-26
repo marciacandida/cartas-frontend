@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   Card,
@@ -12,11 +14,22 @@ import LoginForm from "../forms/LoginForm";
 import RegisterForm from "../forms/RegisterForm";
 
 const AuthForms = () => {
+  const [activeTab, setActiveTab] = useState<"account" | "register">("account");
+  const handleTabChange = (tab: "account" | "register") => {
+    setActiveTab(tab);
+  };
   return (
-    <Tabs defaultValue="account" className="w-fit">
+    <Tabs defaultValue={activeTab} className="w-fit">
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="account">Entrar</TabsTrigger>
-        <TabsTrigger value="register">Registar</TabsTrigger>
+        <TabsTrigger value="account" onClick={() => handleTabChange("account")}>
+          Entrar
+        </TabsTrigger>
+        <TabsTrigger
+          value="register"
+          onClick={() => handleTabChange("register")}
+        >
+          Registar
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card>

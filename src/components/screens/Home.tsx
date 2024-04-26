@@ -1,29 +1,14 @@
 "use client";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { Button } from "../ui/button";
 import ConsultorCards from "../cards/consultorCard";
-import HomeHeader from "../header/HomeHeader";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import useGetUsers from "@/hooks/usuGetUsers";
 
 const arr = [1, 2, , 3, 4, 5, 6, 8, 9, 10, 11];
 
 const Home = () => {
   const { users } = useGetUsers({ query: "CLIENT" });
+
   return (
     <section className="flex items-center justify-center  space-y-5  text-white mt-header ">
       <section className="flex flex-col px-4 mt-14 mb-10 lg:w-main ">
@@ -47,6 +32,7 @@ const Home = () => {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam quas
           odio, debitis, harum vitae, suscipit nostrum facilis modi deserunt
         </p>
+
         <div className="grid grid-cols-3 gap-5 max-md:grid-cols-2 max-[520px]:grid-cols-1  lg:gap-10">
           {users.map((user, idx) => (
             <ConsultorCards

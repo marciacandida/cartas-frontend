@@ -1,17 +1,12 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { Collapsible } from "../ui/collapsible";
-import {
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@radix-ui/react-collapsible";
-import { ChevronsUpDown, SearchIcon } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { SearchIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import useGetUsers from "@/hooks/usuGetUsers";
+import { useGetUser } from "@/hooks/useGetUser";
+import { useState } from "react";
 
 interface ISidbar {
   className?: string;
@@ -20,6 +15,19 @@ interface ISidbar {
 export function Sidebar({ className }: ISidbar) {
   const { users } = useGetUsers({ query: "CLIENT" });
   const pathname = usePathname();
+  const user = useGetUser();
+  const otherUsers = users.filter((u) => u.id !== user.user?.id);
+
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const filteredUsers = otherUsers.filter((user) =>
+    user.firstName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div
       className={cn(
@@ -42,7 +50,7 @@ export function Sidebar({ className }: ISidbar) {
           <div className="">
             <Link
               href={"/home"}
-              className={`w-full font-semibold text-sm text-black flex object-cover py-2 px-2 rounded-lg transition-all hover:bg-accent ${
+              className={`w-full font-medium text-sm text-black flex object-cover py-2 px-2 rounded-lg transition-all hover:bg-accent ${
                 pathname === "/home" && "bg-accent"
               }`}
             >
@@ -50,7 +58,7 @@ export function Sidebar({ className }: ISidbar) {
             </Link>
             <Link
               href={"/pricing"}
-              className={`w-full font-semibold text-sm text-black flex object-cover py-2 px-2  rounded-lg transition-all hover:bg-accent ${
+              className={`w-full font-medium text-sm text-black flex object-cover py-2 px-2  rounded-lg transition-all hover:bg-accent ${
                 pathname === "/pricing" && "bg-accent"
               }`}
             >
@@ -63,6 +71,8 @@ export function Sidebar({ className }: ISidbar) {
           <SearchIcon className="w-4 h-4" />
           <input
             placeholder="Pesquisar"
+            value={searchQuery}
+            onChange={handleSearchChange}
             className=" bg-transparent border-none text-sm focus:border-transparent focus:outline-none"
           />
         </div>
@@ -71,7 +81,7 @@ export function Sidebar({ className }: ISidbar) {
             Conversas
           </h2>
           <div className="p-2">
-            {users.map((user, idx) => (
+            {filteredUsers.map((user, idx) => (
               <Link
                 href={`/chat/${user.id}`}
                 className={`w-full h-14 flex object-cover p-2 rounded-lg transition-all hover:bg-accent ${
@@ -79,15 +89,18 @@ export function Sidebar({ className }: ISidbar) {
                 }`}
                 key={idx}
               >
-                <img
-                  src={
-                    "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-                  }
-                  alt="foto de perfil"
-                  className="rounded-full"
-                />
+                <Avatar>
+                  <AvatarImage
+                    // src={
+                    //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
+                    // }
+                    alt="foto de perfil"
+                    className="object-cover w-9 h-9 rounded-full z-10"
+                  ></AvatarImage>
+                  <AvatarFallback className="">{`${user.firstName[0].toUpperCase()}${user.lastName[0].toUpperCase()}`}</AvatarFallback>
+                </Avatar>
                 <div className="ml-2 w-44">
-                  <h1 className="font-semibold text-black text-start text-[15px]">
+                  <h1 className="font-medium text-black text-start text-[15px]">
                     {user.firstName}
                   </h1>
                   <p className="truncate text-xs text-paragraph">

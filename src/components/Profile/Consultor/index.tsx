@@ -19,6 +19,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   const pathname = usePathname();
   const [rating, setrating] = useState<number>(7.5);
   const { user } = useGetOneUser(user_id);
+  const loggedUser = useGetUser();
 
   return (
     <section className="flex items-center justify-center  mt-header">
@@ -32,17 +33,13 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
                 // }
                 alt="foto de perfil"
               ></AvatarImage>
-              <AvatarFallback className="text-3xl">{`${user?.firstName[0].toUpperCase()} ${user?.lastName[0].toUpperCase()}`}</AvatarFallback>
+              <AvatarFallback className="text-3xl">{`${user?.firstName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}</AvatarFallback>
             </Avatar>
             <EditPhoto />
           </section>
           <section>
             <div className="flex space-x-4 items-center max-md:flex-col-reverse max-md:items-start max-md:space-x-0 max-md:space-y-reverse max-md:space-y-2">
               <h1 className="font-semibold text-2xl max-md:text-xl">{`${user?.firstName} ${user?.lastName}`}</h1>
-              <p className="text-paragraph flex items-center space-x-1 text-xs font-medium ">
-                <MapPin className="w-4 h-4" />
-                <span className="max-md:text-xs">Ho Chi Minh City</span>
-              </p>
             </div>
             {pathname !== "/profile/consultant/user" ? (
               // <button className="text-paragraph font-semibold text-xs flex items-center space-x-1  absolute right-10 top-8">
@@ -72,7 +69,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
               </div>
             </div> */}
             <div className="flex w-full justify-end max-sm:justify-start">
-              {pathname !== "/profile/consultant/user" && (
+              {user?.id === loggedUser.user?.id ? null : (
                 <Link
                   href={`/chat/${user_id}`}
                   className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"

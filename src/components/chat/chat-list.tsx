@@ -1,7 +1,7 @@
 import { Message, UserData } from "@/app/data";
 import { cn } from "@/lib/utils";
 import React, { useRef } from "react";
-import { Avatar, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import ChatBottombar from "./chat-bottombar";
 import { AnimatePresence, motion } from "framer-motion";
 import { IMessage } from "@/hooks/useGetMessages";
@@ -35,7 +35,7 @@ export function ChatList({
   const receiver = useGetOneUser(id);
 
   return (
-    <div className=" overflow-y-auto overflow-x-hidden h-full flex flex-col mb-24">
+    <div className=" overflow-y-auto overflow-x-hidden h-screen flex flex-col mb-24 ">
       <div
         ref={messagesContainerRef}
         className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col"
@@ -67,15 +67,15 @@ export function ChatList({
             >
               <div className="flex gap-3 items-center">
                 {message.to === user?.id && (
-                  <Avatar className="flex justify-center items-center">
+                  <Avatar>
                     <AvatarImage
-                      src={
-                        "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-                      }
-                      alt={receiver.user?.lastName}
-                      width={6}
-                      height={6}
-                    />
+                      // src={
+                      //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
+                      // }
+                      alt="foto de perfil"
+                      className="object-cover w-9 h-9 rounded-full z-10"
+                    ></AvatarImage>
+                    <AvatarFallback className="">{`${receiver.user?.firstName[0].toUpperCase()}${receiver.user?.lastName[0].toUpperCase()}`}</AvatarFallback>
                   </Avatar>
                 )}
                 {message.to === user?.id ? (
