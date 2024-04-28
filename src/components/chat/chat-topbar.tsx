@@ -1,47 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UserData } from "@/app/data";
-import {
-  ChevronLeft,
-  Info,
-  Phone,
-  StepBack,
-  StepBackIcon,
-  TimerIcon,
-  Video,
-} from "lucide-react";
+import { ChevronLeft, Info, TimerIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import ConsultorProfile from "../Profile/Consultor";
 import { IUser } from "@/hooks/useGetUser";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTimer } from "react-timer-hook";
-
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "../ui/input";
 
@@ -68,7 +46,16 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
   } = useTimer({
     expiryTimestamp: expiryTime,
     onExpire: () => console.warn("onExpire called"),
+    autoStart: false,
   });
+
+  const [timerStarted, setTimerStarted] = useState(false);
+  const handleStartTimer = () => {
+    setTimerStarted(true); // Set the state to indicate timer has started
+    start(); // Start the timer
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="w-full flex p-4 justify-between items-center border-b">
@@ -118,6 +105,10 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
         </DrawerContent>
       </Drawer> */}
 
+      <div>
+        <button onClick={handleStartTimer}>start timer</button>
+      </div>
+
       <DropdownMenu>
         <DropdownMenuTrigger>
           <div>
@@ -144,24 +135,10 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
               <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:
               <span>{seconds}</span>
             </div>
-            <p>{isRunning ? "Running" : "Not running"}</p>
-            {/* <button onClick={start}>Start</button>
-            <button onClick={pause}>Pause</button>
-            <button onClick={resume}>Resume</button>
-            <button
-              onClick={() => {
-                // Restarts to 5 minutes timer
-                const time = new Date();
-                time.setSeconds(time.getSeconds() + 300);
-                restart(time);
-              }}
-            >
-              Restart
-            </button> */}
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDialog open={!isRunning}>
+      <AlertDialog open={!isRunning && timerStarted}>
         <AlertDialogContent className="max-sm:rounded-md max-sm:mx-0 max-sm:px-2 max-sm:w-full">
           <AlertDialogHeader>
             <AlertDialogTitle>Os seus minutos acabaram</AlertDialogTitle>

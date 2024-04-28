@@ -83,6 +83,16 @@ const HomeHeader = () => {
                 <p className="text-xs">Conversas</p>
               </TooltipContent>
             </Tooltip>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger>
+                <div className="p-[10px] bg-gray-100 rounded-full ">
+                  <p className="text-xs">12.55 R$</p>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="-ml-7">
+                <p className="text-xs">Saldo</p>
+              </TooltipContent>
+            </Tooltip>
           </TooltipProvider>
         </div>
         <DropdownMenu>
