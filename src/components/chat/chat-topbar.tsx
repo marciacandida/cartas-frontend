@@ -22,6 +22,24 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Input } from "../ui/input";
+import { useRecoilState } from "recoil";
+import { MinutesState } from "@/lib/recoil";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const formSchema = z.object({
+  minutes: z.string(),
+});
 
 interface ChatTopbarProps {
   selectedUser?: IUser;
@@ -30,8 +48,9 @@ interface ChatTopbarProps {
 export const TopbarIcons = [{ icon: Info }];
 
 export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
-  const time = new Date();
-  const expiryTime = new Date(time.getTime() + 600 * 100);
+  const [time, setTime] = useRecoilState(MinutesState);
+  const date = new Date();
+  const expiryTime = new Date(date.getTime() + time * 60000);
   const {
     totalSeconds,
     seconds,
@@ -56,6 +75,36 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
   };
 
   useEffect(() => {}, []);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      minutes: "10",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const minutesNumber = parseInt(values.minutes);
+
+    if (!isNaN(minutesNumber)) {
+      if (isRunning) {
+        pause();
+      }
+
+      setTime(minutesNumber);
+
+      const date = new Date();
+      const newExpiryTime = new Date(date.getTime() + minutesNumber * 60000);
+
+      restart(newExpiryTime);
+
+      start();
+
+      setTimerStarted(true);
+    } else {
+      console.error("Invalid input for minutes:", values.minutes);
+    }
+  }
 
   return (
     <div className="w-full flex p-4 justify-between items-center border-b">
@@ -132,8 +181,7 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
           <DropdownMenuSeparator />
           <div style={{ textAlign: "center" }}>
             <div>
-              <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:
-              <span>{seconds}</span>
+              <span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
             </div>
           </div>
         </DropdownMenuContent>
@@ -147,24 +195,43 @@ export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
               ex ea molestiae aut distinctio.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <form className="space-y-3">
-            <div className="flex items-center space-x-2">
-              <Input type="number" required min={10} value={10} />
-              <span>min</span>
-            </div>
+          <Form {...form}>
+            <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex items-center w-full 0 space-x-2">
+                <FormField
+                  control={form.control}
+                  name="minutes"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <Input
+                          placeholder="12"
+                          {...field}
+                          type="number"
+                          min={10}
+                        />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <span>min</span>
+              </div>
 
-            <div className="flex w-full justify-end max-sm:justify-center space-x-3">
-              <Link
-                href={`/pricing`}
-                className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
-              >
-                Comprar mais minutos
-              </Link>
-              <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
-                <span>Continuar</span>
-              </button>
-            </div>
-          </form>
+              <div className="flex w-full justify-end max-sm:justify-center space-x-3">
+                <Link
+                  href={`/pricing`}
+                  className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
+                >
+                  Comprar mais minutos
+                </Link>
+                <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                  <span>Continuar</span>
+                </button>
+              </div>
+            </form>
+          </Form>
         </AlertDialogContent>
       </AlertDialog>
     </div>

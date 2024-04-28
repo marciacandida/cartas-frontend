@@ -2,7 +2,7 @@
 
 import { BookmarkIcon, MapPin } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import EditProfile from "./editProfile";
 import EditPhoto from "./editPhoto";
@@ -36,6 +36,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useRecoilState } from "recoil";
+import { MinutesState } from "@/lib/recoil";
 
 const formSchema = z.object({
   minutes: z.string(),
@@ -46,7 +48,8 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   const [rating, setrating] = useState<number>(7.5);
   const { user } = useGetOneUser(user_id);
   const loggedUser = useGetUser();
-  const [minutes, setMinutes] = useState<number>();
+  const [minutes, setMinutes] = useRecoilState(MinutesState);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -59,6 +62,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
     console.log(values.minutes);
     const minutesNumber = parseInt(values.minutes, 10);
     setMinutes(minutesNumber);
+    router.push(`/chat/${user?.id}`);
   }
 
   return (
@@ -131,9 +135,10 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
                               <FormItem className="w-full">
                                 <FormControl>
                                   <Input
-                                    placeholder="vlado@xyz.com"
+                                    placeholder="12"
                                     {...field}
                                     type="number"
+                                    min={10}
                                   />
                                 </FormControl>
                                 <FormDescription></FormDescription>

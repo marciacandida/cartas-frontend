@@ -68,7 +68,7 @@ const HomeHeader = () => {
                 </Link>
               </TooltipTrigger>
               <TooltipContent className="-ml-7">
-                <p className="text-xs">Comprar creditos</p>
+                <p className="text-xs">Comprar créditos</p>
               </TooltipContent>
             </Tooltip>
             <Tooltip delayDuration={200}>
@@ -84,13 +84,11 @@ const HomeHeader = () => {
               </TooltipContent>
             </Tooltip>
             <Tooltip delayDuration={200}>
-              <TooltipTrigger>
-                <div className="p-[10px] bg-gray-100 rounded-full ">
-                  <p className="text-xs">12.55 R$</p>
-                </div>
+              <TooltipTrigger className="p-[10px] bg-gray-100 rounded-full">
+                <p className="text-xs">12.55 R$</p>
               </TooltipTrigger>
-              <TooltipContent className="-ml-7">
-                <p className="text-xs">Saldo</p>
+              <TooltipContent className="-ml-9">
+                <p className="text-xs">Crédito</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
