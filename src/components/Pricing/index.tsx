@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import styles from "../../style/pricing.module.css";
-
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -114,7 +113,7 @@ export default function Pricing() {
 
           <div
             className={cn(
-              "isolate mt-4 mb-10 grid max-w-md lg:grid-cols-3 md:grid-cols-2 gap-8 mx-0 max-w-none"
+              "isolate mt-4 mb-10 grid  lg:grid-cols-3 md:grid-cols-2 gap-8 mx-0 max-w-none"
             )}
           >
             {tiers.map((tier) => (
@@ -155,10 +154,7 @@ export default function Pricing() {
                       tier.featured
                         ? "text-white dark:text-black"
                         : "text-black dark:text-white",
-                      "text-4xl font-bold tracking-tight",
-                      tier.discountPrice && tier.discountPrice[frequency.value]
-                        ? "line-through"
-                        : ""
+                      "text-4xl font-bold tracking-tight"
                     )}
                   >
                     {typeof tier.price === "string"

@@ -3,9 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useGetUsers from "@/hooks/usuGetUsers";
@@ -19,7 +16,7 @@ const Search = () => {
   const user = useGetUser();
 
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false); // Initial state for dropdown menu
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -82,7 +79,7 @@ const Search = () => {
                   key={idx}
                   onClick={(e) => {
                     e.preventDefault();
-                    router.push(`/chat/${user.id}`); // Navigate to the chat URL
+                    router.push(`/chat/${user.id}`);
                   }}
                 >
                   <Avatar>

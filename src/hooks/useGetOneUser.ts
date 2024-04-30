@@ -1,7 +1,6 @@
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { IUser } from "./useGetUser";
-import { response } from "express";
 
 export const useGetOneUser = (id: string) => {
   const [user, setUser] = useState<IUser>();

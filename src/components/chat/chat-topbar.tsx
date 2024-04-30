@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { UserData, loggedInUserData } from "@/app/data";
 import { ChevronLeft, Info, TimerIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -23,7 +22,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "../ui/input";
 import { useGetRoom } from "@/hooks/useGetRoomrs";
-import moment from "moment";
 import { useRecoilState } from "recoil";
 import { MinutesState } from "@/lib/recoil";
 import {
@@ -32,13 +30,11 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ISOStringFormat } from "date-fns";
 import { getLocalTime } from "@/lib/locatTimeZone";
 import { useToast } from "../ui/use-toast";
 import { axiosInstance } from "@/lib/axios";
@@ -65,18 +61,7 @@ export default function ChatTopbar({
   const { toast } = useToast();
   const { room } = useGetRoom(selectedUser?.id);
   const router = useRouter();
-  const {
-    totalSeconds,
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    resume,
-    restart,
-  } = useTimer({
+  const { seconds, minutes, hours, isRunning, restart } = useTimer({
     autoStart: false,
     expiryTimestamp: expiryTime,
   });
@@ -239,16 +224,24 @@ export default function ChatTopbar({
                 <span>min</span>
               </div>
 
-              <div className="flex w-full justify-end max-sm:justify-center space-x-3">
+              <div className="flex w-full justify-between max-sm:justify-center space-x-3">
                 <Link
-                  href={`/pricing`}
+                  href={`/`}
                   className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
                 >
-                  Comprar mais minutos
+                  Sair
                 </Link>
-                <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
-                  <span>Continuar</span>
-                </button>
+                <div>
+                  <Link
+                    href={`/pricing`}
+                    className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
+                  >
+                    Comprar mais minutos
+                  </Link>
+                  <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                    <span>Continuar</span>
+                  </button>
+                </div>
               </div>
             </form>
           </Form>

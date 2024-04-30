@@ -1,8 +1,6 @@
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { IUser, useGetUser } from "./useGetUser";
-import { response } from "express";
-import { ISOStringFormat } from "date-fns";
 
 interface IRoom {
   id: string;
@@ -10,7 +8,7 @@ interface IRoom {
   consultor: IUser;
 }
 
-export const useGetRoom = (consultorId: string) => {
+export const useGetRoom = (consultorId: string | undefined) => {
   const [room, setRoom] = useState<IRoom | null>(null);
   const { user } = useGetUser();
   useEffect(() => {

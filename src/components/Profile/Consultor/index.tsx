@@ -1,15 +1,9 @@
 "use client";
 
-import { BookmarkIcon, MapPin } from "lucide-react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import EditProfile from "./editProfile";
 import EditPhoto from "./editPhoto";
-import { skills } from "./skillsData";
-import StarsRating from "./rating";
-import ConsultoriasCard from "@/components/cards/consultoriasCard";
-import { consultorias } from "./consultoriasData";
 import { useGetOneUser } from "@/hooks/useGetOneUser";
 import { useGetUser } from "@/hooks/useGetUser";
 import { AvatarImage } from "@radix-ui/react-avatar";
@@ -17,14 +11,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { axiosInstance } from "@/lib/axios";
 import { useGetRoom } from "@/hooks/useGetRoomrs";
@@ -37,7 +29,6 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useRecoilState } from "recoil";

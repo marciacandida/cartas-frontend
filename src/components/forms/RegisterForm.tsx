@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormWrapper } from ".";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import { Calendar } from "@/components/ui/calendar";
@@ -28,13 +27,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { delay } from "framer-motion";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/navigation";
-import { error } from "console";
 import { setUserLoginDetails } from "@/lib/redux/features/user/userSlice";
 import { useDispatch } from "react-redux";
-import store from "@/lib/redux/store";
 const formSchema = z
   .object({
     email: z.string().email({ message: "Email invalido" }),

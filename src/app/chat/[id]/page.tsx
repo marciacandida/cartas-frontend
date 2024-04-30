@@ -1,4 +1,3 @@
-import { Chat } from "@/components/chat/chat";
 import { ChatLayout } from "@/components/chat/chat-layout";
 import { Sidebar } from "@/components/sidebar";
 import { Metadata } from "next";

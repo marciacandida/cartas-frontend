@@ -1,7 +1,4 @@
-import { Chat } from "@/components/chat/chat";
-import { ChatLayout } from "@/components/chat/chat-layout";
 import { MobileView } from "@/components/chat/mobileScreen";
-import { Sidebar } from "@/components/sidebar";
 import { Metadata } from "next";
 import React from "react";
 

@@ -1,4 +1,4 @@
-import { Message, UserData } from "@/app/data";
+import { UserData } from "@/app/data";
 import ChatTopbar from "./chat-topbar";
 import { ChatList } from "./chat-list";
 import React from "react";
@@ -6,12 +6,10 @@ import { IMessage, useGetMessages } from "@/hooks/useGetMessages";
 import { axiosInstance } from "@/lib/axios";
 import { useGetOneUser } from "@/hooks/useGetOneUser";
 import useSocket from "@/hooks/useSocket";
-import useGetUsers from "@/hooks/usuGetUsers";
 import { useGetUser } from "@/hooks/useGetUser";
 
 interface ChatProps {
   id: string;
-
   selectedUser: UserData;
   isMobile: boolean;
 }

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./reduxProvider";
-import { RecoilRoot } from "recoil";
 import RecoilContextProvider from "./recoilContextProvider";
 import { Toaster } from "@/components/ui/toaster";
 const poppins = Poppins({ weight: "400", subsets: ["latin"] });

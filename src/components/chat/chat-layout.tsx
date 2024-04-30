@@ -2,16 +2,9 @@
 
 import { userData } from "@/app/data";
 import React, { useEffect, useState } from "react";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { cn } from "@/lib/utils";
-
+import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Chat } from "./chat";
 import { useGetOneUser } from "@/hooks/useGetOneUser";
-import { useGetMessages } from "@/hooks/useGetMessages";
 
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined;

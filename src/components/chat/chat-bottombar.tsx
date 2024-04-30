@@ -1,21 +1,11 @@
-import {
-  FileImage,
-  Mic,
-  Paperclip,
-  PlusCircle,
-  SendHorizontal,
-  Smile,
-  ThumbsUp,
-} from "lucide-react";
+import { FileImage, Paperclip, SendHorizontal } from "lucide-react";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import { Message, loggedInUserData } from "@/app/data";
+import { AnimatePresence } from "framer-motion";
 import { Textarea } from "../ui/textarea";
 import { EmojiPicker } from "./emoji-picker";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { IMessage } from "@/hooks/useGetMessages";
 import { useGetUser } from "@/hooks/useGetUser";
 
@@ -27,11 +17,7 @@ interface ChatBottombarProps {
 
 export const BottombarIcons = [{ icon: FileImage }, { icon: Paperclip }];
 
-export default function ChatBottombar({
-  sendMessage,
-  isMobile,
-  id,
-}: ChatBottombarProps) {
+export default function ChatBottombar({ sendMessage, id }: ChatBottombarProps) {
   const [message, setMessage] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const { user } = useGetUser();

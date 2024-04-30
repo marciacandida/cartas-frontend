@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { format } from "date-fns";
 import {
   Form,
   FormControl,
@@ -15,25 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormWrapper } from ".";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-
-import { Calendar } from "@/components/ui/calendar";
-import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
-import { delay } from "framer-motion";
-import { axiosInstance } from "@/lib/axios";
-import { useRouter } from "next/navigation";
-import { error } from "console";
 import { Textarea } from "../ui/textarea";
-import { Tag, TagInput } from "../ui/tag/tag-input";
+import { Tag } from "../ui/tag/tag-input";
 import { toast } from "../ui/use-toast";
 const formSchema = z.object({
   firstName: z.string({
@@ -51,12 +33,6 @@ const formSchema = z.object({
   description: z.string({
     required_error: "insira a sua descrição",
   }),
-  // skills: z.array(
-  //   z.object({
-  //     id: z.string(),
-  //     text: z.string(),
-  //   })
-  // ),
 });
 
 const EditProfileForm = () => {

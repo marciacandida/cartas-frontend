@@ -14,12 +14,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormWrapper } from ".";
 import { Loader2 } from "lucide-react";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setUserLoginDetails } from "@/lib/redux/features/user/userSlice";
 import { IUserResponse } from "./RegisterForm";
 const formSchema = z.object({
   email: z.string().email({ message: "Email invalido" }),
@@ -31,7 +29,6 @@ const formSchema = z.object({
 const LoginForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const dispatch = useDispatch();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

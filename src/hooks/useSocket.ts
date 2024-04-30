@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import { useGetUser } from "./useGetUser";
 import createSocketInstance from "@/lib/socketSingleton";
 

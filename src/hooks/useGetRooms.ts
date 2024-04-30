@@ -1,7 +1,6 @@
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { IUser, useGetUser } from "./useGetUser";
-import { response } from "express";
 
 interface IRoom {
   id: string;

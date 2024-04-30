@@ -1,8 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
-import { Button } from "../ui/button";
 import Link from "next/link";
-import { IUser } from "@/hooks/useGetUser";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 

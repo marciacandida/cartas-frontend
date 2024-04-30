@@ -1,19 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { Collapsible } from "../ui/collapsible";
-import {
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@radix-ui/react-collapsible";
-import {
-  ChevronsUpDown,
-  CircleDollarSign,
-  MessageCircleIcon,
-  SearchIcon,
-} from "lucide-react";
+import { CircleDollarSign, MessageCircleIcon, SearchIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import useGetUsers from "@/hooks/usuGetUsers";
