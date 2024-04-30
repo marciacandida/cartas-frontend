@@ -124,6 +124,7 @@ const HomeHeader = () => {
             )}
             <DropdownMenuItem>
               <Button variant={"link"} onClick={handleLogout}>
+                {" "}
                 Sair
               </Button>
             </DropdownMenuItem>

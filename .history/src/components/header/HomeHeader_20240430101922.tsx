@@ -32,7 +32,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Search from "./search";
-import { Button } from "../ui/button";
+import { Button } from "react-day-picker";
+
 const HomeHeader = () => {
   const router = useRouter();
   const { isConnected, socket } = useSocket();
@@ -41,10 +42,6 @@ const HomeHeader = () => {
   const [opens, setOpens] = useRecoilState(MenuState);
   const { users } = useGetUsers({ query: "CONSULTOR" });
   const otherUsers = users.filter((u) => u.id !== user.user?.id);
-  const handleLogout = () => {
-    localStorage.clear();
-    router.push("/");
-  };
 
   return (
     <div className="fixed left-0  z-20 top-0 right-0 flex justify-between bg-white items-center h-16 px-4 text-sm border-b border-b-first  shadow-md transition-all">
@@ -123,9 +120,7 @@ const HomeHeader = () => {
               </>
             )}
             <DropdownMenuItem>
-              <Button variant={"link"} onClick={handleLogout}>
-                Sair
-              </Button>
+              <Button> Sair</Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
