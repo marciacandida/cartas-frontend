@@ -41,8 +41,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ISOStringFormat } from "date-fns";
 import { getLocalTime } from "@/lib/locatTimeZone";
 import { useToast } from "../ui/use-toast";
-import { axiosInstance } from "@/lib/axios";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   minutes: z.string(),
@@ -64,7 +62,6 @@ export default function ChatTopbar({
   const expiryTime = new Date(date.getTime() + time * 60000);
   const { toast } = useToast();
   const { room } = useGetRoom(selectedUser?.id);
-  const router = useRouter();
   const {
     totalSeconds,
     seconds,
@@ -110,18 +107,24 @@ export default function ChatTopbar({
         description:
           "Aumente os seus crérditos para poder começar a consultoria",
       });
-    if (!room)
-      return toast({
-        title: "Problemas ao renovar a subscrição",
-        description: "Volte a tentar mais tarte",
-      });
-    return await axiosInstance
-      .post("/update-room-expiry", {
-        roomId: room.id,
-        newExpiry: Number(values.minutes),
-      })
-      .then(() => router.push(`/chat/${selectedUser?.id}`))
-      .catch((err) => console.error(err));
+    if (!isNaN(minutesNumber)) {
+      if (isRunning) {
+        pause();
+      }
+
+      setTime(minutesNumber);
+
+      const date = new Date();
+      const newExpiryTime = new Date(date.getTime() + minutesNumber * 60000);
+
+      restart(newExpiryTime);
+
+      start();
+
+      setTimerStarted(true);
+    } else {
+      console.error("Invalid input for minutes:", values.minutes);
+    }
   }
   useEffect(() => {
     console.log(room);
