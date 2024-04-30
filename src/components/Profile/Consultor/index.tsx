@@ -28,6 +28,24 @@ import { Toast } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { axiosInstance } from "@/lib/axios";
 import { useGetRoom } from "@/hooks/useGetRoomrs";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useRecoilState } from "recoil";
+import { MinutesState } from "@/lib/recoil";
+
+const formSchema = z.object({
+  minutes: z.string(),
+});
 
 const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   const pathname = usePathname();
@@ -71,6 +89,22 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
       .then(() => router.push(`/chat/${user_id}`))
       .catch((error) => console.log(error));
   };
+  const [minutes, setMinutes] = useRecoilState(MinutesState);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      minutes: "10",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values.minutes);
+    const minutesNumber = parseInt(values.minutes, 10);
+    setMinutes(minutesNumber);
+    router.push(`/chat/${user?.id}`);
+  }
+
   return (
     <section className="flex items-center justify-center  mt-header">
       <div className="flex flex-col  mt-14 mb-10 max-lg:px-5 ">
@@ -128,26 +162,39 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
                     <DialogHeader>
                       <DialogTitle>Insira os minutos da tua sessão</DialogTitle>
                     </DialogHeader>
-                    <div className="space-y-3">
-                      <div className="flex items-center space-x-2">
-                        <Input
-                          type="number"
-                          required
-                          min={10}
-                          value={10}
-                          onChange={(value) => setTime(Number(value.target))}
-                        />
-                        <span>min</span>
-                      </div>
-                      <DialogFooter>
-                        <button
-                          className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
-                          onClick={() => startConsultoring(time)}
-                        >
-                          <span>Continuar</span>
-                        </button>
-                      </DialogFooter>
-                    </div>
+                    <Form {...form}>
+                      <form
+                        className="space-y-3"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                      >
+                        <div className="flex items-center w-full 0 space-x-2">
+                          <FormField
+                            control={form.control}
+                            name="minutes"
+                            render={({ field }) => (
+                              <FormItem className="w-full">
+                                <FormControl>
+                                  <Input
+                                    placeholder="12"
+                                    {...field}
+                                    type="number"
+                                    min={10}
+                                  />
+                                </FormControl>
+                                <FormDescription></FormDescription>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <span>min</span>
+                        </div>
+                        <DialogFooter>
+                          <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                            <span>Continuar</span>
+                          </button>
+                        </DialogFooter>
+                      </form>
+                    </Form>
                   </DialogContent>
                 </Dialog>
               )}

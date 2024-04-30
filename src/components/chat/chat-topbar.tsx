@@ -1,51 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UserData } from "@/app/data";
-import {
-  ChevronLeft,
-  Info,
-  Phone,
-  StepBack,
-  StepBackIcon,
-  TimerIcon,
-  Video,
-} from "lucide-react";
+import { ChevronLeft, Info, TimerIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import ConsultorProfile from "../Profile/Consultor";
 import { IUser } from "@/hooks/useGetUser";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTimer } from "react-timer-hook";
-
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "../ui/input";
 import { useGetRoom } from "@/hooks/useGetRoomrs";
 import moment from "moment";
+import { useRecoilState } from "recoil";
+import { MinutesState } from "@/lib/recoil";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const formSchema = z.object({
+  minutes: z.string(),
+});
+
 interface ChatTopbarProps {
   selectedUser?: IUser;
   loggedUser: IUser | null;
@@ -53,15 +50,10 @@ interface ChatTopbarProps {
 
 export const TopbarIcons = [{ icon: Info }];
 
-export default function ChatTopbar({
-  selectedUser,
-  loggedUser,
-}: ChatTopbarProps) {
-  const time = new Date();
-  const expiryTime = new Date(time.getTime() + 300 * 100);
-  const expiryTimeUTC = moment.utc(expiryTime).toDate();
-  const { room } = useGetRoom(selectedUser?.id);
-
+export default function ChatTopbar({ selectedUser }: ChatTopbarProps) {
+  const [time, setTime] = useRecoilState(MinutesState);
+  const date = new Date();
+  const expiryTime = new Date(date.getTime() + time * 60000);
   const {
     totalSeconds,
     seconds,
@@ -74,21 +66,48 @@ export default function ChatTopbar({
     resume,
     restart,
   } = useTimer({
-    expiryTimestamp: room?.expiry
-      ? moment.utc(room?.expiry + 2).toDate()
-      : expiryTime,
-    onExpire: () => console.warn("onExpire called"),
+    autoStart: false,
+    expiryTimestamp: expiryTime,
   });
 
-  useEffect(() => {
-    if (!room) return;
-    console.log(new Date(time.getTime()));
-    if (room.expiry > new Date(Date.now()).toISOString()) {
-      console.log(true);
+  const [timerStarted, setTimerStarted] = useState(false);
+  const handleStartTimer = () => {
+    setTimerStarted(true); // Set the state to indicate timer has started
+    start(); // Start the timer
+  };
+
+  useEffect(() => {}, []);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      minutes: "10",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const minutesNumber = parseInt(values.minutes);
+
+    if (!isNaN(minutesNumber)) {
+      if (isRunning) {
+        pause();
+      }
+
+      setTime(minutesNumber);
+
+      const date = new Date();
+      const newExpiryTime = new Date(date.getTime() + minutesNumber * 60000);
+
+      restart(newExpiryTime);
+
+      start();
+
+      setTimerStarted(true);
     } else {
-      console.log(new Date(Date.now()).toISOString());
+      console.error("Invalid input for minutes:", values.minutes);
     }
-  }, [room]);
+  }
+
   return (
     <div className="w-full flex p-4 justify-between items-center border-b">
       <div className="max-lg:flex max-lg:flex-col max-lg:space-y-5">
@@ -137,6 +156,10 @@ export default function ChatTopbar({
         </DrawerContent>
       </Drawer> */}
 
+      <div>
+        <button onClick={handleStartTimer}>start timer</button>
+      </div>
+
       <DropdownMenu>
         <DropdownMenuTrigger>
           <div>
@@ -160,27 +183,12 @@ export default function ChatTopbar({
           <DropdownMenuSeparator />
           <div style={{ textAlign: "center" }}>
             <div>
-              <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:
-              <span>{seconds}</span>
+              <span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
             </div>
-            <p>{isRunning ? "Running" : "Not running"}</p>
-            {/* <button onClick={start}>Start</button>
-            <button onClick={pause}>Pause</button>
-            <button onClick={resume}>Resume</button>
-            <button
-              onClick={() => {
-                // Restarts to 5 minutes timer
-                const time = new Date();
-                time.setSeconds(time.getSeconds() + 300);
-                restart(time);
-              }}
-            >
-              Restart
-            </button> */}
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDialog open={!isRunning}>
+      <AlertDialog open={!isRunning && timerStarted}>
         <AlertDialogContent className="max-sm:rounded-md max-sm:mx-0 max-sm:px-2 max-sm:w-full">
           <AlertDialogHeader>
             <AlertDialogTitle>Os seus minutos acabaram</AlertDialogTitle>
@@ -189,24 +197,43 @@ export default function ChatTopbar({
               ex ea molestiae aut distinctio.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <form className="space-y-3">
-            <div className="flex items-center space-x-2">
-              <Input type="number" required min={10} value={10} />
-              <span>min</span>
-            </div>
+          <Form {...form}>
+            <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex items-center w-full 0 space-x-2">
+                <FormField
+                  control={form.control}
+                  name="minutes"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormControl>
+                        <Input
+                          placeholder="12"
+                          {...field}
+                          type="number"
+                          min={10}
+                        />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <span>min</span>
+              </div>
 
-            <div className="flex w-full justify-end max-sm:justify-center space-x-3">
-              <Link
-                href={`/pricing`}
-                className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
-              >
-                Comprar mais minutos
-              </Link>
-              <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
-                <span>Continuar</span>
-              </button>
-            </div>
-          </form>
+              <div className="flex w-full justify-end max-sm:justify-center space-x-3">
+                <Link
+                  href={`/pricing`}
+                  className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
+                >
+                  Comprar mais minutos
+                </Link>
+                <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                  <span>Continuar</span>
+                </button>
+              </div>
+            </form>
+          </Form>
         </AlertDialogContent>
       </AlertDialog>
     </div>
