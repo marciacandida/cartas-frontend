@@ -114,16 +114,18 @@ export function Sidebar({ className }: ISidbar) {
                   </Avatar>
                   <div className="ml-2 w-44">
                     <h1 className="font-medium text-black text-start text-[15px]">
-                      {`${
-                        type === "CLIENT"
-                          ? room.consultor.firstName
-                          : room.client.firstName
-                      } ${
-                        type === "CLIENT"
-                          ? room.consultor.lastName
-                          : room.client.lastName
-                      }`}
+                      {type === "CLIENT"
+                        ? room.consultor.firstName
+                        : room.client.firstName + " " + type === "CLIENT"
+                        ? room.consultor.lastName
+                        : room.client.firstName}
                     </h1>
+                    <p className="truncate text-xs text-paragraph">
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                      Quia nesciunt, sint hic ducimus consectetur veniam quidem,
+                      at optio ratione eaque ex magni impedit saepe laudantium!
+                      Architecto repellat corporis est quod.
+                    </p>
                   </div>
                   {/* <ListMusic className="mr-2 h-4 w-4" /> */}
                   {/* {playlist} */}

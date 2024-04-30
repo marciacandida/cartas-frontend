@@ -231,17 +231,14 @@ export default function ChatTopbar({
                 >
                   Sair
                 </Link>
-                <div className="flex space-x-2">
+                <div className="flex">
                   <Link
                     href={`/pricing`}
                     className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
                   >
                     Comprar mais minutos
                   </Link>
-                  <button
-                    className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
-                    type="submit"
-                  >
+                  <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
                     <span>Continuar</span>
                   </button>
                 </div>

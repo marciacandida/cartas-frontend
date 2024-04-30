@@ -121,7 +121,7 @@ export function Sidebar({ className }: ISidbar) {
                       } ${
                         type === "CLIENT"
                           ? room.consultor.lastName
-                          : room.client.lastName
+                          : room.client.firstName
                       }`}
                     </h1>
                   </div>
