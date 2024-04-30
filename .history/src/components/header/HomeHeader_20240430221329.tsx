@@ -1,7 +1,12 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { CircleDollarSign, MenuIcon, MessageCircleIcon } from "lucide-react";
+import {
+  CircleDollarSign,
+  MenuIcon,
+  MessageCircleIcon,
+  SearchIcon,
+} from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -22,6 +27,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -53,6 +59,7 @@ const HomeHeader = () => {
         </Link>
       </div>
       <div className="space-x-5 flex items-center transition-all">
+        {/* <Search /> */}
         <div className="m-0 p-0 max-md:hidden space-x-5 transition-all flex items-center">
           <TooltipProvider>
             <Tooltip delayDuration={200}>
@@ -84,7 +91,7 @@ const HomeHeader = () => {
               ) : (
                 <Tooltip delayDuration={200}>
                   <TooltipTrigger>
-                    <Link href={`/chat/${rooms[0].client.id}`}>
+                    <Link href={`/chat/${rooms[0].consultor.id}`}>
                       <div className="p-2 bg-gray-100 rounded-full ">
                         <MessageCircleIcon className="w-5 h-5 " />
                       </div>
