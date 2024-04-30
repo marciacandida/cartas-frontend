@@ -1,0 +1,55 @@
+import { PricingTier } from "../../../types/pricingTierType";
+
+export const tiers: PricingTier[] = [
+  {
+    name: "Free",
+    id: "0",
+    href: "#",
+    price: { "1": "R$10" },
+    discountPrice: { "1": "" },
+    description: `crédidtos de conversa super basica`,
+    features: [
+      `Multi-platform compatibility`,
+      `Real-time notification system`,
+      `Advanced user permissions`,
+    ],
+    featured: false,
+    highlighted: false,
+    soldOut: false,
+    cta: `Pagar`,
+  },
+  {
+    name: "Pro",
+    id: "1",
+    href: "#",
+    price: { "1": "R$30" },
+    discountPrice: { "1": "" },
+    description: `crédidtos de conversa intermédia`,
+    features: [
+      `10`,
+      `Customizable templates`,
+      `Integration with third-party apps`,
+    ],
+    featured: false,
+    highlighted: true,
+    soldOut: false,
+    cta: `Pagar`,
+  },
+  {
+    name: "Scaler",
+    id: "2",
+    href: "#",
+    price: { "1": "R$50" },
+    discountPrice: { "1": "" },
+    description: `crédidtos de conversa avançada`,
+    features: [
+      `All in the pro plan plus`,
+      `Priority support`,
+      `Enterprise-grade security`,
+    ],
+    featured: true,
+    highlighted: false,
+    soldOut: false,
+    cta: `Pagar`,
+  },
+];
