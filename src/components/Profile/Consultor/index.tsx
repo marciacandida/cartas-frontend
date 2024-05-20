@@ -2,7 +2,6 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import EditProfile from "./editProfile";
 import EditPhoto from "./editPhoto";
 import { useGetOneUser } from "@/hooks/useGetOneUser";
 import { useGetUser } from "@/hooks/useGetUser";
@@ -11,6 +10,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -32,7 +32,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRecoilState } from "recoil";
-import { MinutesState } from "@/lib/recoil";
+import { EditProfileState, MinutesState } from "@/lib/recoil";
+import { BookmarkIcon, Edit2 } from "lucide-react";
+import EditProfileForm from "@/components/forms/EditProfileForm";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   minutes: z.string(),
@@ -42,6 +45,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   const pathname = usePathname();
   const { toast } = useToast();
   const [rating, setrating] = useState<number>(7.5);
+  const [open, setOpen] = useRecoilState(EditProfileState);
   const [time, setTime] = useState<number>(10);
   const { user } = useGetOneUser(user_id);
   const loggedUser = useGetUser();
@@ -99,7 +103,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
     <section className="flex items-center justify-center  mt-header">
       <div className="flex flex-col  mt-14 mb-10 max-lg:px-5 ">
         <div className="flex rounded-lg bg-gray-100 p-10 max-md:p-5 w-full lg:w-main  space-x-16 max-md:space-x-7 relative max-sm:flex-col max-sm:space-x-0 max-sm:space-y-5">
-          <section className="lg:w-[500px] max-sm:justify-center max-sm:flex relative">
+          <section className=" max-sm:justify-center max-sm:flex relative">
             <Avatar className="object-cover w-60 h-60 max-lg:w-40 max-lg:h-40 rounded-full z-10 border border-gray-300 ">
               <AvatarImage
                 // src={
@@ -109,26 +113,41 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
               ></AvatarImage>
               <AvatarFallback className="text-3xl">{`${user?.firstName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}</AvatarFallback>
             </Avatar>
-            <EditPhoto />
           </section>
-          <section>
+          <section className="">
             <div className="flex space-x-4 items-center max-md:flex-col-reverse max-md:items-start max-md:space-x-0 max-md:space-y-reverse max-md:space-y-2">
               <h1 className="font-semibold text-2xl max-md:text-xl">{`${user?.firstName} ${user?.lastName}`}</h1>
             </div>
-            {pathname !== "/profile/consultant/user" ? (
-              // <button className="text-paragraph font-semibold text-xs flex items-center space-x-1  absolute right-10 top-8">
-              //   <BookmarkIcon className="w-4 h-4" />
-              //   <span>Salvar</span>
-              // </button>
-              <></>
-            ) : (
-              <EditProfile />
+            {user?.id === loggedUser.user?.id && (
+              <Dialog open={open}>
+                <button
+                  className="absolute right-7 top-8 max-sm:top-52"
+                  onClick={() => setOpen(true)}
+                >
+                  <div className="p-[6px] border-[1.5px] border-first rounded-full">
+                    <Edit2 className="text-first" size={15} />
+                  </div>
+                </button>
+                <DialogContent className="px-5">
+                  <DialogHeader>
+                    <DialogTitle className="text-base">
+                      Editar perfil
+                    </DialogTitle>
+                    <DialogDescription className="text-paragraph text-xs">
+                      This action cannot be undone. This will permanently delete
+                      your account and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <EditProfileForm />
+                </DialogContent>
+              </Dialog>
             )}
             <p className="font-bold text-sm text-first mt-1 max-md:text-xs">
               Software Developer
             </p>
             <p className="text-paragraph text-sm font-normal mt-7 w-[90%]">
               {user?.bio}
+              Clique no botão editar e adicione sua descrição
             </p>
 
             {/* <div className="mt-7 space-y-2">
