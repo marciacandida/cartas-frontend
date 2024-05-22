@@ -106,9 +106,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
           <section className=" max-sm:justify-center max-sm:flex relative">
             <Avatar className="object-cover w-60 h-60 max-lg:w-40 max-lg:h-40 rounded-full z-10 border border-gray-300 ">
               <AvatarImage
-                // src={
-                //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-                // }
+                src={`${user?.photo}`}
                 alt="foto de perfil"
               ></AvatarImage>
               <AvatarFallback className="text-3xl">{`${user?.firstName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}</AvatarFallback>
@@ -133,21 +131,18 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
                     <DialogTitle className="text-base">
                       Editar perfil
                     </DialogTitle>
-                    <DialogDescription className="text-paragraph text-xs">
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
-                    </DialogDescription>
                   </DialogHeader>
-                  <EditProfileForm />
+                  <EditProfileForm user={user} />
                 </DialogContent>
               </Dialog>
             )}
             <p className="font-bold text-sm text-first mt-1 max-md:text-xs">
-              Software Developer
+              {user?.expertise}
             </p>
             <p className="text-paragraph text-sm font-normal mt-7 w-[90%]">
-              {user?.bio}
-              Clique no botão editar e adicione sua descrição
+              {user
+                ? user.bio
+                : "Clique no botão editar e adicione sua descrição"}
             </p>
 
             {/* <div className="mt-7 space-y-2">

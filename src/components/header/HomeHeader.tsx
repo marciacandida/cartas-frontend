@@ -58,7 +58,7 @@ const HomeHeader = () => {
             <Tooltip delayDuration={200}>
               <TooltipTrigger>
                 <Link href={"/pricing"}>
-                  <div className="p-2 bg-gray-100 rounded-full ">
+                  <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
                     <CircleDollarSign className="w-5 h-5 " />
                   </div>
                 </Link>
@@ -72,7 +72,7 @@ const HomeHeader = () => {
                 <Tooltip delayDuration={200}>
                   <TooltipTrigger>
                     <Link href={`/chat/${rooms[0].consultor.id}`}>
-                      <div className="p-2 bg-gray-100 rounded-full ">
+                      <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
                         <MessageCircleIcon className="w-5 h-5 " />
                       </div>
                     </Link>
@@ -85,7 +85,7 @@ const HomeHeader = () => {
                 <Tooltip delayDuration={200}>
                   <TooltipTrigger>
                     <Link href={`/chat/${rooms[0].client.id}`}>
-                      <div className="p-2 bg-gray-100 rounded-full ">
+                      <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
                         <MessageCircleIcon className="w-5 h-5 " />
                       </div>
                     </Link>
@@ -100,7 +100,7 @@ const HomeHeader = () => {
             )}
 
             <Tooltip delayDuration={200}>
-              <TooltipTrigger className="p-[10px] bg-gray-100 rounded-full">
+              <TooltipTrigger className="w-10 h-10 bg-gray-100 rounded-full">
                 <p className="text-xs">{user.user?.balance}</p>
               </TooltipTrigger>
               <TooltipContent className="-ml-9">

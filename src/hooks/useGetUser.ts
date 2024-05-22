@@ -9,6 +9,9 @@ export interface IUser {
   type: "CLIENT" | "CONSULTOR";
   bio: string;
   balance: number;
+  birth_date?: Date;
+  expertise?: string;
+  photo?: string;
 }
 
 export const useGetUser = () => {
