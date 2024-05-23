@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import {
   Table,
@@ -36,6 +36,9 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import useGetUsers from "@/hooks/usuGetUsers";
+import { IUser, useGetUser } from "@/hooks/useGetUser";
+import { useRouter } from "next/navigation";
 
 interface Filters {
   name: string;
@@ -47,41 +50,56 @@ const formSchema = z.object({
 });
 
 export const Admin = () => {
-  const [filters, setFilters] = useState<Filters>({
-    name: "",
-    status: "all",
-  });
+  const user = useGetUser();
+  const router = useRouter();
 
-  const handleFilterChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFilters({
-      ...filters,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { users } = useGetUsers({ query: "CONSULTOR" });
+  console.log(user.user?.email);
+  useEffect(() => {
+    if (user.user?.firstName.toLowerCase() !== "admin") {
+      router.push("/auth?admin");
+    }
+  }, [router]);
 
-  const filteredData = adminData.filter((item: adminTableTypes) => {
-    return (
-      (filters.name === "" ||
-        item.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-      (filters.status === "all" || item.status === filters.status)
-    );
-  });
+  // const [filters, setFilters] = useState<Filters>({
+  //   name: "",
+  //   status: "all",
+  // });
+
+  // const handleFilterChange = (
+  //   e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  // ) => {
+  //   setFilters({
+  //     ...filters,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
+  // const filteredData = users.filter((item: IUser) => {
+  //   return (
+  //     (filters.name === "" ||
+  //       item.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+  //     (filters.status === "all" || item.status === filters.status)
+  //   );
+  // });
 
   const [dialog, setDialog] = useState<{
     open: boolean;
-    id: number | null;
+    id: string | null;
     name: string;
   }>({
     open: false,
-    id: null,
+    id: "",
     name: "",
   });
 
-  const handlePaymentClick = (id: number) => {
-    const consultant = filteredData.find((item) => item.id === id);
-    setDialog({ open: true, id: id, name: consultant ? consultant.name : "" });
+  const handlePaymentClick = (id: string) => {
+    const consultant = users.find((item) => item.id === id);
+    setDialog({
+      open: true,
+      id: id,
+      name: consultant ? consultant.firstName : "",
+    });
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -102,7 +120,7 @@ export const Admin = () => {
           Consultores
         </h1>
 
-        <div className="mb-5 flex space-x-4">
+        {/* <div className="mb-5 flex space-x-4">
           <input
             type="text"
             name="name"
@@ -121,7 +139,7 @@ export const Admin = () => {
             <option value="paid">Pago</option>
             <option value="unpaid">A pagar</option>
           </select>
-        </div>
+        </div> */}
 
         <Table>
           <TableHeader>
@@ -134,27 +152,27 @@ export const Admin = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredData.map((item, index) => (
+            {users.map((item, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{item.id}</TableCell>
-                <TableCell>{item.name}</TableCell>
-                <TableCell>{item.credit}</TableCell>
+                <TableCell>{item.firstName}</TableCell>
+                <TableCell>{item.balance}</TableCell>
                 <TableCell className="font-semibold text-xs">
-                  {item.status === "paid" ? (
-                    <span className="text-green-500">&#x2022; Pago</span>
-                  ) : (
+                  {item.balance <= 0 ? (
                     <span className="text-red-500">&#x2022; A pagar</span>
+                  ) : (
+                    <span className="text-green-500">&#x2022; Pago</span>
                   )}
                 </TableCell>
                 <TableCell>
-                  {item.status === "paid" ? null : (
+                  {item.balance <= 0 ? (
                     <button
                       className="cursor-pointer"
                       onClick={() => handlePaymentClick(item.id)}
                     >
                       Pagar
                     </button>
-                  )}
+                  ) : null}
                 </TableCell>
               </TableRow>
             ))}
