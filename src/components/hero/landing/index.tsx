@@ -25,14 +25,14 @@ const LandingHero = () => {
             variation="primary"
             px={"80px"}
             py={"12px"}
-            onClick={() => router.push("/auth")}
+            onClick={() => router.push("/auth?tab=client")}
           />
           <RoundButton
             text="Consultor"
             variation="secundary"
             px={"80px"}
             py={"12px"}
-            onClick={() => router.push("/auth")}
+            onClick={() => router.push("/auth?tab=consultor")}
           />
         </div>
       </div>

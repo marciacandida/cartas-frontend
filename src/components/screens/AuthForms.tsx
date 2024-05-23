@@ -11,10 +11,13 @@ import {
 } from "../ui/card";
 import LoginForm from "../forms/LoginForm";
 import RegisterForm from "../forms/RegisterForm";
+import { useSearchParams } from "next/navigation";
 
 const AuthForms = () => {
+  const tabs = useSearchParams();
+  const role = tabs.get("tab") || "";
   return (
-    <Tabs defaultValue="account" className="w-fit">
+    <Tabs defaultValue={role ? "register" : "account"} className="w-fit">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="account">Entrar</TabsTrigger>
         <TabsTrigger value="register">Registar</TabsTrigger>
@@ -41,7 +44,7 @@ const AuthForms = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
-            <RegisterForm />
+            <RegisterForm role={role} />
           </CardContent>
         </Card>
       </TabsContent>

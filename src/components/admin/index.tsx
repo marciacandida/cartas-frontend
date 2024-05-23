@@ -1,25 +1,19 @@
 "use client";
 
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Table,
   TableBody,
   TableCell,
-  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { adminData } from "./adminData";
-import { adminTableTypes } from "../../../types/adminTableTypes";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
@@ -52,14 +46,7 @@ const formSchema = z.object({
 export const Admin = () => {
   const user = useGetUser();
   const router = useRouter();
-
   const { users } = useGetUsers({ query: "CONSULTOR" });
-  console.log(user.user?.email);
-  useEffect(() => {
-    if (user.user?.firstName.toLowerCase() !== "admin") {
-      router.push("/auth?admin");
-    }
-  }, [router]);
 
   // const [filters, setFilters] = useState<Filters>({
   //   name: "",

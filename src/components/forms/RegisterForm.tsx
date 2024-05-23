@@ -31,6 +31,8 @@ import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { setUserLoginDetails } from "@/lib/redux/features/user/userSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "../ui/use-toast";
+import { PasswordInput } from "../ui/PasswordInput";
 const formSchema = z
   .object({
     email: z.string().email({ message: "Email invalido" }),
@@ -123,7 +125,7 @@ export interface IUserResponse {
   token: string;
 }
 
-const RegisterForm = () => {
+const RegisterForm = ({ role }: { role: string }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -135,6 +137,7 @@ const RegisterForm = () => {
       confirmPassword: "",
       firstName: "",
       lastName: "",
+      role: role ? role.toUpperCase() : "",
     },
   });
 
@@ -154,7 +157,13 @@ const RegisterForm = () => {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         router.push("/home");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast({
+          title: "Erro ao cadastrar",
+          description: err.response.data.message,
+          variant: "destructive",
+        });
+      });
 
     setLoading(false);
   }
@@ -179,7 +188,7 @@ const RegisterForm = () => {
               <FormItem className="w-full">
                 <FormLabel>Primeiro Nome</FormLabel>
                 <FormControl>
-                  <Input placeholder="Vlado" {...field} />
+                  <Input placeholder="João" {...field} />
                 </FormControl>
                 <FormDescription></FormDescription>
                 <FormMessage />
@@ -238,7 +247,6 @@ const RegisterForm = () => {
                   />
                 </PopoverContent>
               </Popover>
-
               <FormMessage />
             </FormItem>
           )}
@@ -272,7 +280,7 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="vlado@xyz.com" {...field} />
+                <Input placeholder="joao@exemplo.com" {...field} />
               </FormControl>
               <FormDescription></FormDescription>
               <FormMessage />
@@ -286,10 +294,9 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+                <PasswordInput
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;"
                   {...field}
-                  type="password"
                 />
               </FormControl>
               <FormDescription></FormDescription>
@@ -304,10 +311,9 @@ const RegisterForm = () => {
             <FormItem>
               <FormLabel>Confirmar Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+                <PasswordInput
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;"
                   {...field}
-                  type="password"
                 />
               </FormControl>
               <FormDescription></FormDescription>

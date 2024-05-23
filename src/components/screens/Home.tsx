@@ -3,10 +3,12 @@ import React from "react";
 import ConsultorCards from "../cards/consultorCard";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import useGetUsers from "@/hooks/usuGetUsers";
+import { useRouter } from "next/navigation";
 
 const arr = [1, 2, , 3, 4, 5, 6, 8, 9, 10, 11];
 
 const Home = () => {
+  const router = useRouter();
   const { users } = useGetUsers({ query: "CONSULTOR" });
 
   return (

@@ -19,6 +19,8 @@ import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { IUserResponse } from "./RegisterForm";
+import { toast } from "../ui/use-toast";
+import { PasswordInput } from "../ui/PasswordInput";
 const formSchema = z.object({
   email: z.string().email({ message: "Email invalido" }),
   password: z.string().min(8, {
@@ -29,6 +31,7 @@ const formSchema = z.object({
 const LoginForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,7 +50,17 @@ const LoginForm = () => {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         router.push("/home");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response) {
+          toast({
+            title: "Erro",
+            description: err.response.data.message,
+            variant: "destructive",
+          });
+        } else {
+          setError("An unexpected error occurred");
+        }
+      });
     console.log(values);
     setLoading(false);
   }
@@ -61,7 +74,7 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="vlado@xyz.com" {...field} />
+                <Input placeholder="joao@exemplo.com" {...field} />
               </FormControl>
               <FormDescription></FormDescription>
               <FormMessage />
@@ -75,10 +88,9 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
+                <PasswordInput
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;"
                   {...field}
-                  type="password"
                 />
               </FormControl>
               <FormDescription></FormDescription>

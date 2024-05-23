@@ -21,7 +21,7 @@ function Calendar({
       className={cn("p-3", className)}
       captionLayout="dropdown"
       fromYear={1950}
-      toYear={2025}
+      toYear={2010}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CircleDollarSign, MenuIcon, MessageCircleIcon } from "lucide-react";
 import {
@@ -37,6 +37,7 @@ const HomeHeader = () => {
   const { users } = useGetUsers({ query: "CONSULTOR" });
   const otherUsers = users.filter((u) => u.id !== user.user?.id);
   const { rooms } = useGetRooms();
+  const [admin, setAdmin] = useState(false);
   const handleLogout = () => {
     localStorage.clear();
     router.push("/");
@@ -53,96 +54,111 @@ const HomeHeader = () => {
         </Link>
       </div>
       <div className="space-x-5 flex items-center transition-all">
-        <div className="m-0 p-0 max-md:hidden space-x-5 transition-all flex items-center">
-          <TooltipProvider>
-            <Tooltip delayDuration={200}>
-              <TooltipTrigger>
-                <Link href={"/pricing"}>
-                  <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
-                    <CircleDollarSign className="w-5 h-5 " />
-                  </div>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent className="-ml-7">
-                <p className="text-xs">Comprar créditos</p>
-              </TooltipContent>
-            </Tooltip>
-            {rooms[0] ? (
-              user.user?.type == "CLIENT" ? (
+        {admin ? (
+          <Link
+            href={`/admin`}
+            className=" text-white bg-first  px-10 py-2 rounded-lg"
+          >
+            Admin
+          </Link>
+        ) : (
+          <>
+            <div className="m-0 p-0 max-md:hidden space-x-5 transition-all flex items-center">
+              <TooltipProvider>
                 <Tooltip delayDuration={200}>
                   <TooltipTrigger>
-                    <Link href={`/chat/${rooms[0].consultor.id}`}>
+                    <Link href={"/pricing"}>
                       <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
-                        <MessageCircleIcon className="w-5 h-5 " />
+                        <CircleDollarSign className="w-5 h-5 " />
                       </div>
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent className="-ml-7">
-                    <p className="text-xs">Conversas</p>
+                    <p className="text-xs">Comprar créditos</p>
                   </TooltipContent>
                 </Tooltip>
-              ) : (
-                <Tooltip delayDuration={200}>
-                  <TooltipTrigger>
-                    <Link href={`/chat/${rooms[0].client.id}`}>
-                      <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
-                        <MessageCircleIcon className="w-5 h-5 " />
-                      </div>
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent className="-ml-7">
-                    <p className="text-xs">Conversas</p>
-                  </TooltipContent>
-                </Tooltip>
-              )
-            ) : (
-              <div></div>
-            )}
+                {rooms[0] ? (
+                  user.user?.type == "CLIENT" ? (
+                    <Tooltip delayDuration={200}>
+                      <TooltipTrigger>
+                        <Link href={`/chat/${rooms[0].consultor.id}`}>
+                          <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
+                            <MessageCircleIcon className="w-5 h-5 " />
+                          </div>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent className="-ml-7">
+                        <p className="text-xs">Conversas</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip delayDuration={200}>
+                      <TooltipTrigger>
+                        <Link href={`/chat/${rooms[0].client.id}`}>
+                          <div className="w-10 h-10 items-center justify-center flex bg-gray-100 rounded-full ">
+                            <MessageCircleIcon className="w-5 h-5 " />
+                          </div>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent className="-ml-7">
+                        <p className="text-xs">Conversas</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  )
+                ) : (
+                  <div></div>
+                )}
 
-            <Tooltip delayDuration={200}>
-              <TooltipTrigger className="w-10 h-10 bg-gray-100 rounded-full">
-                <p className="text-xs">{user.user?.balance}</p>
-              </TooltipTrigger>
-              <TooltipContent className="-ml-9">
-                <p className="text-xs">Crédito</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center space-x-2 ">
-            <div className="max-md:hidden">
-              <p className=" text-xs">{`${user.user?.firstName} ${user.user?.lastName}`}</p>
-              <p className="text-paragraph text-[11px]">
-                {user.user?.type === "CLIENT" ? "Cliente" : "Consultor"}
-              </p>
+                <Tooltip delayDuration={200}>
+                  <TooltipTrigger className="w-10 h-10 bg-gray-100 rounded-full">
+                    <p className="text-xs">{user.user?.balance}</p>
+                  </TooltipTrigger>
+                  <TooltipContent className="-ml-9">
+                    <p className="text-xs">Crédito</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
-            <Avatar>
-              <AvatarImage
-                // src={
-                //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-                // }
-                alt="foto de perfil"
-                className="object-cover w-9 h-9 rounded-full z-10"
-              ></AvatarImage>
-              <AvatarFallback className="">{`${user.user?.firstName[0].toUpperCase()}${user.user?.lastName[0].toUpperCase()}`}</AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {user.user?.type === "CONSULTOR" && (
-              <>
-                <Link href={`/profile/consultant/${user.user?.id}`}>
-                  <DropdownMenuItem>Meu perfil</DropdownMenuItem>
-                </Link>
-                <DropdownMenuSeparator />
-              </>
-            )}
-            <DropdownMenuItem>
-              <button onClick={handleLogout}>Sair</button>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center space-x-2 ">
+                <div className="max-md:hidden">
+                  <p className=" text-xs">{`${user.user?.firstName} ${user.user?.lastName}`}</p>
+                  <p className="text-paragraph text-[11px]">
+                    {user.user?.type === "CLIENT" ? "Cliente" : "Consultor"}
+                  </p>
+                </div>
+                <Avatar>
+                  <AvatarImage
+                    // src={
+                    //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
+                    // }
+                    alt="foto de perfil"
+                    className="object-cover w-9 h-9 rounded-full z-10"
+                  ></AvatarImage>
+                  <AvatarFallback className="">{`${user.user?.firstName[0].toUpperCase()}${user.user?.lastName[0].toUpperCase()}`}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {user.user?.type === "CONSULTOR" && (
+                  <>
+                    <Link href={`/profile/consultant/${user.user?.id}`}>
+                      <DropdownMenuItem className="cursor-pointer">
+                        Meu perfil
+                      </DropdownMenuItem>
+                    </Link>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        )}
         <div className="md:hidden">
           <div
             className="p-2 bg-gray-100 rounded-full cursor-pointer"
