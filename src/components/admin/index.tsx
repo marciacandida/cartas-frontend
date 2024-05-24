@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Table,
@@ -33,6 +33,8 @@ import Link from "next/link";
 import useGetUsers from "@/hooks/usuGetUsers";
 import { IUser, useGetUser } from "@/hooks/useGetUser";
 import { useRouter } from "next/navigation";
+import { axiosInstance } from "@/lib/axios";
+import { response } from "express";
 
 interface Filters {
   name: string;
@@ -40,14 +42,16 @@ interface Filters {
 }
 
 const formSchema = z.object({
-  payment: z.string(),
+  payment: z.string({required_error: "insira um valor"})
+
 });
 
 export const Admin = () => {
   const user = useGetUser();
   const router = useRouter();
-  const { users } = useGetUsers({ query: "CONSULTOR" });
-
+  const consultores = useGetUsers({ query: "CONSULTOR" });
+  const [currentUser, setCurrentUser] = useState<string>()
+  const [users, setUser] = useState<IUser[]>()
   // const [filters, setFilters] = useState<Filters>({
   //   name: "",
   //   status: "all",
@@ -70,6 +74,13 @@ export const Admin = () => {
   //   );
   // });
 
+  useEffect(()=> {
+   
+    if(user.user?.role === "ADMIN") {
+      setUser(consultores.users)
+    }
+    return 
+  }, [user.user?.role])
   const [dialog, setDialog] = useState<{
     open: boolean;
     id: string | null;
@@ -81,7 +92,8 @@ export const Admin = () => {
   });
 
   const handlePaymentClick = (id: string) => {
-    const consultant = users.find((item) => item.id === id);
+    const consultant = users?.find((item) => item.id === id);
+    setCurrentUser(id)
     setDialog({
       open: true,
       id: id,
@@ -97,7 +109,11 @@ export const Admin = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.log("submit")
+   await axiosInstance.put(`/pay-consultor/${currentUser}`,{credit: values.payment})
+   .then(response=> console.log(response))
+   .catch(error => console.log(error))
+
   }
 
   return (
@@ -139,13 +155,13 @@ export const Admin = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((item, index) => (
+            {users?.map((item, index) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">{item.id}</TableCell>
                 <TableCell>{item.firstName}</TableCell>
-                <TableCell>{item.balance}</TableCell>
+                <TableCell>{item.credit}</TableCell>
                 <TableCell className="font-semibold text-xs">
-                  {item.balance <= 0 ? (
+                  {item.credit > 0 ? (
                     <span className="text-red-500">&#x2022; A pagar</span>
                   ) : (
                     <span className="text-green-500">&#x2022; Pago</span>
@@ -189,6 +205,7 @@ export const Admin = () => {
                       <FormItem className="w-full">
                         <FormControl>
                           <Input
+                            required
                             placeholder="12"
                             {...field}
                             type="number"
@@ -200,13 +217,18 @@ export const Admin = () => {
                       </FormItem>
                     )}
                   />
-                  <span>R$</span>
+<span>R$</span>
+
                 </div>
 
                 <div className="flex w-full justify-between max-sm:justify-center space-x-3">
+                  <input type="hidden" />
                   <button
-                    onClick={() =>
+                    onClick={() =>{
                       setDialog({ open: false, id: null, name: "" })
+                      setCurrentUser(undefined)
+                    }
+    
                     }
                     className=" text-first text-sm font-medium transition-all border-2 border-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3"
                   >
