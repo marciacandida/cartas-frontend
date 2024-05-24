@@ -34,7 +34,7 @@ import useGetUsers from "@/hooks/usuGetUsers";
 import { IUser, useGetUser } from "@/hooks/useGetUser";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "@/lib/axios";
-import { response } from "express";
+
 
 interface Filters {
   name: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   Card,
@@ -17,6 +17,7 @@ const AuthForms = () => {
   const tabs = useSearchParams();
   const role = tabs.get("tab") || "";
   return (
+
     <Tabs defaultValue={role ? "register" : "account"} className="w-fit">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="account">Entrar</TabsTrigger>
@@ -49,6 +50,7 @@ const AuthForms = () => {
         </Card>
       </TabsContent>
     </Tabs>
+    
   );
 };
 

@@ -1,7 +1,7 @@
 import AuthForms from "@/components/screens/AuthForms";
 import { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Autenticação | Ciganos Encantados",
@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 
 const Auth = () => {
   return (
+    <Suspense fallback={<div></div>}>
     <div className="flex flex-col h-full mt-10 mb-10 items-center justify-center space-y-5">
       <Link href={"/"}>
         <p className="text-xl">
@@ -18,6 +19,8 @@ const Auth = () => {
       </Link>
       <AuthForms />
     </div>
+    </Suspense>
+
   );
 };
 
