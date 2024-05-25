@@ -8,7 +8,7 @@ interface IGetUser {
 
 const useGetUsers = ({ query }: IGetUser) => {
   const [users, setUsers] = useState<IUser[]>([]);
-
+  console.log("we here", query )
   useEffect(() => {
     const fetchUsers = async () => {
       await axiosInstance
@@ -17,7 +17,7 @@ const useGetUsers = ({ query }: IGetUser) => {
             query: query ? query : null,
           },
         })
-        .then((res) => setUsers(res.data))
+        .then((res) => {setUsers(res.data); console.log("res",res)})
         .catch((err) => console.error(err));
     };
     return () => {
