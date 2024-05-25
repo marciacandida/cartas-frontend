@@ -10,7 +10,7 @@ const arr = [1, 2, , 3, 4, 5, 6, 8, 9, 10, 11];
 const Home = () => {
   const router = useRouter();
   const { users } = useGetUsers({ query: "CONSULTOR" });
-
+  console.log(users)
   return (
     <section className="flex items-center justify-center  space-y-5  text-white mt-header ">
       <section className="flex flex-col px-4 mt-14 mb-10 lg:w-main ">
