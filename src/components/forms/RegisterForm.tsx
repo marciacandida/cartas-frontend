@@ -35,7 +35,7 @@ import { toast } from "../ui/use-toast";
 import { PasswordInput } from "../ui/PasswordInput";
 const formSchema = z
   .object({
-    email: z.string().email({ message: "Email invalido" }),
+    email: z.string().email({ message: "Email inválido" }),
     password: z.string().min(8, {
       message: "A password deve possuir pelo menos 8 caracteres",
     }),
@@ -49,10 +49,10 @@ const formSchema = z
       required_error: "Insira o seu tipo de usuário ",
     }),
     firstName: z.string({
-      required_error: "Insira o seu tipo de usuário ",
+      required_error: "Insira o seu primeiro nome ",
     }),
     lastName: z.string({
-      required_error: "Insira o seu tipo de usuário ",
+      required_error: "Insira o seu último nome ",
     }),
   })
   .refine(
@@ -295,7 +295,7 @@ const RegisterForm = ({ role }: { role: string }) => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <PasswordInput
-                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;"
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
                   {...field}
                 />
               </FormControl>
@@ -312,7 +312,7 @@ const RegisterForm = ({ role }: { role: string }) => {
               <FormLabel>Confirmar Password</FormLabel>
               <FormControl>
                 <PasswordInput
-                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;"
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
                   {...field}
                 />
               </FormControl>

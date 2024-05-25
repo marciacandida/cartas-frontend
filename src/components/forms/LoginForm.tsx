@@ -22,9 +22,9 @@ import { IUserResponse } from "./RegisterForm";
 import { toast } from "../ui/use-toast";
 import { PasswordInput } from "../ui/PasswordInput";
 const formSchema = z.object({
-  email: z.string().email({ message: "Email invalido" }),
+  email: z.string().email({ message: "Email inválido" }),
   password: z.string().min(8, {
-    message: "password deve possuir pelo menos 8 caracteres",
+    message: "Password deve possuir pelo menos 8 caracteres",
   }),
 });
 
@@ -41,6 +41,7 @@ const LoginForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
     await axiosInstance
       .post<IUserResponse>("/login", {
         email: values.email,
@@ -61,7 +62,6 @@ const LoginForm = () => {
           setError("An unexpected error occurred");
         }
       });
-    console.log(values);
     setLoading(false);
   }
   return (
@@ -89,7 +89,7 @@ const LoginForm = () => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <PasswordInput
-                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;"
+                  placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
                   {...field}
                 />
               </FormControl>

@@ -7,6 +7,7 @@ import { axiosInstance } from "@/lib/axios";
 import { useGetOneUser } from "@/hooks/useGetOneUser";
 import useSocket from "@/hooks/useSocket";
 import { useGetUser } from "@/hooks/useGetUser";
+import { toast } from "../ui/use-toast";
 
 interface ChatProps {
   id: string;
@@ -22,8 +23,11 @@ export function Chat({ selectedUser, isMobile, id }: ChatProps) {
       .post("/sendmessage", newMessage)
       .then((res) => {
         setMessages([...messages, res.data]);
+        toast({ title: "Mensagem enviada com sucesso", description: "" });
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        toast({ title: "Erro ao enviar mensagem", description: err })
+      );
   };
   const { user } = useGetOneUser(id);
   const loggedUser = useGetUser();

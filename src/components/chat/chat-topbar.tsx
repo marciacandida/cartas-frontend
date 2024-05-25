@@ -109,7 +109,6 @@ export default function ChatTopbar({
       .catch((err) => console.error(err));
   }
   useEffect(() => {
-    console.log(room);
     if (!room) return;
     handleStartTimer(room.expiry);
     return () => {};

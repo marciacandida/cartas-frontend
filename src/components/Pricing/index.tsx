@@ -9,6 +9,7 @@ import { tiers } from "./pricingData";
 import { useGetUser } from "@/hooks/useGetUser";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 export interface PricingTierFrequency {
   id: string;

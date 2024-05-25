@@ -36,6 +36,7 @@ import { EditProfileState, MinutesState } from "@/lib/recoil";
 import { BookmarkIcon, Edit2 } from "lucide-react";
 import EditProfileForm from "@/components/forms/EditProfileForm";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const formSchema = z.object({
   minutes: z.string(),
@@ -52,20 +53,17 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   const router = useRouter();
   const { room } = useGetRoom(user_id);
   const startConsultoring = async (mins: number) => {
-    console.log(room);
     if (!loggedUser.user)
       return toast({
         title: "Usuário não autenticado",
         description: "efectue o login para poder começar uma consultoria",
       });
-    console.log(loggedUser.user.balance);
     if (loggedUser.user.balance < mins)
       return toast({
         title: "Não tens creditos suficientess",
         description:
           "Aumente os seus crérditos para poder começar a consultoria",
       });
-    console.log(room);
     if (room) {
       return await axiosInstance
         .post("/update-room-expiry", {
@@ -82,7 +80,7 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
         expiry: mins,
       })
       .then(() => router.push(`/chat/${user_id}`))
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   };
   const [minutes, setMinutes] = useRecoilState(MinutesState);
 
@@ -94,7 +92,6 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values.minutes);
     const minutesNumber = parseInt(values.minutes, 10);
     startConsultoring(minutesNumber);
   }
@@ -105,45 +102,64 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
         <div className="flex rounded-lg bg-gray-100 p-10 max-md:p-5 w-full lg:w-main  space-x-16 max-md:space-x-7 relative max-sm:flex-col max-sm:space-x-0 max-sm:space-y-5">
           <section className=" max-sm:justify-center max-sm:flex relative">
             <Avatar className="object-cover w-60 h-60 max-lg:w-40 max-lg:h-40 rounded-full z-10 border border-gray-300 ">
-              <AvatarImage
-                src={`${user?.photo}`}
-                alt="foto de perfil"
-              ></AvatarImage>
-              <AvatarFallback className="text-3xl">{`${user?.firstName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}</AvatarFallback>
+              {user ? (
+                <>
+                  <AvatarImage
+                    src={`${user?.photo}`}
+                    alt="foto de perfil"
+                  ></AvatarImage>
+                  <AvatarFallback className="text-3xl">{`${user?.firstName[0].toUpperCase()}${user?.lastName[0].toUpperCase()}`}</AvatarFallback>
+                </>
+              ) : (
+                <Skeleton className="w-60 h-60 rounded-full bg-gray-400" />
+              )}
             </Avatar>
           </section>
-          <section className="">
-            <div className="flex space-x-4 items-center max-md:flex-col-reverse max-md:items-start max-md:space-x-0 max-md:space-y-reverse max-md:space-y-2">
-              <h1 className="font-semibold text-2xl max-md:text-xl">{`${user?.firstName} ${user?.lastName}`}</h1>
-            </div>
-            {user?.id === loggedUser.user?.id && (
-              <Dialog open={open}>
-                <button
-                  className="absolute right-7 top-8 max-sm:top-52"
-                  onClick={() => setOpen(true)}
-                >
-                  <div className="p-[6px] border-[1.5px] border-first rounded-full">
-                    <Edit2 className="text-first" size={15} />
-                  </div>
-                </button>
-                <DialogContent className="px-5">
-                  <DialogHeader>
-                    <DialogTitle className="text-base">
-                      Editar perfil
-                    </DialogTitle>
-                  </DialogHeader>
-                  <EditProfileForm user={user} />
-                </DialogContent>
-              </Dialog>
+          <section className=" flex flex-col ">
+            {user ? (
+              <div>
+                <div className="flex space-x-4 items-center max-md:flex-col-reverse max-md:items-start max-md:space-x-0 max-md:space-y-reverse max-md:space-y-2">
+                  <h1 className="font-semibold text-2xl max-md:text-xl">{`${user?.firstName} ${user?.lastName}`}</h1>
+                </div>
+                {user?.id === loggedUser.user?.id && (
+                  <Dialog open={open}>
+                    <button
+                      className="absolute right-7 top-8 max-sm:top-52"
+                      onClick={() => setOpen(true)}
+                    >
+                      <div className="p-[6px] border-[1.5px] border-first rounded-full">
+                        <Edit2 className="text-first" size={15} />
+                      </div>
+                    </button>
+                    <DialogContent className="px-5">
+                      <DialogHeader>
+                        <DialogTitle className="text-base">
+                          Editar perfil
+                        </DialogTitle>
+                      </DialogHeader>
+                      <EditProfileForm user={user} />
+                    </DialogContent>
+                  </Dialog>
+                )}
+
+                <p className="font-bold text-sm text-first mt-1 max-md:text-xs">
+                  Software engenheiro
+                  {user?.expertise}
+                </p>
+                <p className="text-paragraph text-sm font-normal mt-5 mb-3 w-[90%]">
+                  {user
+                    ? user.bio
+                    : "Clique no botão editar e adicione sua descrição"}
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="flex space-x-4 items-center max-md:flex-col-reverse max-md:items-start max-md:space-x-0 max-md:space-y-reverse max-md:space-y-2">
+                  <Skeleton className="w-48 rounded-full h-5 mt-[6px] bg-gray-400" />
+                </div>
+                <Skeleton className="w-36 h-[15px] mt-4 rounded-full bg-gray-400" />
+              </>
             )}
-            <p className="font-bold text-sm text-first mt-1 max-md:text-xs">
-              {user?.expertise}
-            </p>
-            <p className="text-paragraph text-sm font-normal mt-7 w-[90%]">
-              {user
-                ? user.bio
-                : "Clique no botão editar e adicione sua descrição"}
-            </p>
 
             {/* <div className="mt-7 space-y-2">
               <p className="uppercase font-bold text-xs text-paragraph">
@@ -156,51 +172,57 @@ const ConsultorProfile = ({ user_id }: { user_id: string }) => {
                 </div>
               </div>
             </div> */}
-            <div className="flex w-full justify-end max-sm:justify-start">
-              {user?.id === loggedUser.user?.id ? null : (
-                <Dialog>
-                  <DialogTrigger className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
-                    Enviar mensagem
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Insira os minutos da tua sessão</DialogTitle>
-                    </DialogHeader>
-                    <Form {...form}>
-                      <form
-                        className="space-y-3"
-                        onSubmit={form.handleSubmit(onSubmit)}
-                      >
-                        <div className="flex items-center w-full 0 space-x-2">
-                          <FormField
-                            control={form.control}
-                            name="minutes"
-                            render={({ field }) => (
-                              <FormItem className="w-full">
-                                <FormControl>
-                                  <Input
-                                    placeholder="12"
-                                    {...field}
-                                    type="number"
-                                    min={10}
-                                  />
-                                </FormControl>
-                                <FormDescription></FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <span>min</span>
-                        </div>
-                        <DialogFooter>
-                          <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
-                            <span>Continuar</span>
-                          </button>
-                        </DialogFooter>
-                      </form>
-                    </Form>
-                  </DialogContent>
-                </Dialog>
+            <div className="flex w-full max-sm:justify-start">
+              {user && (
+                <>
+                  {user.id !== loggedUser.user?.id && (
+                    <Dialog>
+                      <DialogTrigger className=" text-white text-sm font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg-first/80 max-md:text-xs max-md:px-3">
+                        Enviar mensagem
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>
+                            Insira os minutos da tua sessão
+                          </DialogTitle>
+                        </DialogHeader>
+                        <Form {...form}>
+                          <form
+                            className="space-y-3"
+                            onSubmit={form.handleSubmit(onSubmit)}
+                          >
+                            <div className="flex items-center w-full 0 space-x-2">
+                              <FormField
+                                control={form.control}
+                                name="minutes"
+                                render={({ field }) => (
+                                  <FormItem className="w-full">
+                                    <FormControl>
+                                      <Input
+                                        placeholder="12"
+                                        {...field}
+                                        type="number"
+                                        min={10}
+                                      />
+                                    </FormControl>
+                                    <FormDescription></FormDescription>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              <span>min</span>
+                            </div>
+                            <DialogFooter>
+                              <button className=" text-white text-sm  flex items-center font-medium transition-all bg-first px-5 py-2 rounded-lg hover:bg- max-md:text-xs max-md:px-3">
+                                <span>Continuar</span>
+                              </button>
+                            </DialogFooter>
+                          </form>
+                        </Form>
+                      </DialogContent>
+                    </Dialog>
+                  )}
+                </>
               )}
             </div>
             {/* <div className="mt-10">

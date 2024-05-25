@@ -9,7 +9,7 @@ export interface IUser {
   email: string;
   type: "CLIENT" | "CONSULTOR";
   bio: string;
-  role: "ADMIN" | "USER"
+  role: "ADMIN" | "USER";
   balance: number;
   birth_date?: Date;
   expertise?: string;
