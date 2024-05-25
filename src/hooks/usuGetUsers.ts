@@ -10,6 +10,7 @@ const useGetUsers = ({ query }: IGetUser) => {
   const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
+    console.log("we got here")
     const fetchUsers = async () => {
       await axiosInstance
         .get("/getUsers", {
