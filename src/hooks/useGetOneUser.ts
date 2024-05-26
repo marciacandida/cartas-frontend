@@ -12,10 +12,9 @@ export const useGetOneUser = (id: string) => {
         .then((response) => setUser(response.data))
         .catch((error) => console.error(error));
     };
-    return () => {
-      fetchUser();
-    };
+    fetchUser();
+    return;
   }, [id]);
 
-  return { user };
+  return { user, setUser };
 };

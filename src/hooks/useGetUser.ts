@@ -62,5 +62,5 @@ export const useGetUser = () => {
   //   checkAdminRoute();
   // }, [router]);
 
-  return { user };
+  return { user, setUser };
 };

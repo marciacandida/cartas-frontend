@@ -26,9 +26,8 @@ export const useGetMessages = (receiver: string) => {
         })
         .catch((err) => console.error(err));
     };
-    return () => {
-      fetchMesssages();
-    };
+    fetchMesssages();
+    return;
   }, [user]);
 
   return {
