@@ -10,6 +10,7 @@ const arr = [1, 2, , 3, 4, 5, 6, 8, 9, 10, 11];
 
 const Home = () => {
   const router = useRouter();
+  console.log("here")
   const { users } = useGetUsers({ query: "CONSULTOR" });
   console.log(users)
   return (

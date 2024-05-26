@@ -10,8 +10,8 @@ const useGetUsers = ({ query }: IGetUser) => {
   const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
+    console.log("we are her")
     const fetchUsers = async () => {
-      console.log("we are here")
       await axiosInstance
         .get("/getUsers", {
           params: {
@@ -21,9 +21,8 @@ const useGetUsers = ({ query }: IGetUser) => {
         .then((res) => {setUsers(res.data); console.log("res",res)})
         .catch((err) => console.error(err));
     };
-    return () => {
-      fetchUsers();
-    };
+    fetchUsers();
+    return 
   }, [query]);
   return { users };
 };

@@ -21,8 +21,9 @@ import { EditProfileState } from "@/lib/recoil";
 import { useRecoilState } from "recoil";
 import { axiosInstance } from "@/lib/axios";
 import { EditProfileSchema } from "./schemas/editProfile";
-import { IUser } from "@/hooks/useGetUser";
+import { IUser, useGetUser } from "@/hooks/useGetUser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useGetOneUser } from "@/hooks/useGetOneUser";
 
 interface ProfileData {
   firstName: string;
@@ -32,7 +33,7 @@ interface ProfileData {
   photo?: File;
 }
 
-const EditProfileForm = ({ user }: { user?: IUser }) => {
+const EditProfileForm = ({ user }: { user: IUser }) => {
   const [open, setOpen] = useRecoilState(EditProfileState);
   const [tags, setTags] = useState<Tag[]>([
     { id: "0", text: "Branding" },
@@ -40,6 +41,7 @@ const EditProfileForm = ({ user }: { user?: IUser }) => {
     { id: "2", text: "Web-design" },
     { id: "3", text: "Packing" },
   ]);
+  const { setUser } = useGetOneUser(user.id);
   const [file, setFile] = useState<File | undefined>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +76,8 @@ const EditProfileForm = ({ user }: { user?: IUser }) => {
     await axiosInstance
       .put(`/user/${user?.id}`, formData)
       .then((res) => {
-        toast({
+        setUser(res.data)
+       toast({
           title: "Perfil alterado com sucesso!",
         });
       })
