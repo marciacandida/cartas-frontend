@@ -24,7 +24,7 @@ const useGetUsers = ({ query }: IGetUser) => {
     return () => {
       fetchUsers();
     };
-  }, []);
+  }, [query]);
   return { users };
 };
 export default useGetUsers;
