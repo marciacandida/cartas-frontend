@@ -4,6 +4,7 @@ import ConsultorCards from "../cards/consultorCard";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import useGetUsers from "@/hooks/usuGetUsers";
 import { useRouter } from "next/navigation";
+import { ConsultorCardSkeleton } from "../skeleton/consultorCard";
 
 const arr = [1, 2, , 3, 4, 5, 6, 8, 9, 10, 11];
 
@@ -27,13 +28,21 @@ const Home = () => {
             </CarouselContent>
           </Carousel>
         </div>
-        <h1 className="text-3xl max-md:text-2xl mt-10 text-black font-semibold">
+        <h1 className="text-3xl max-md:text-2xl mt-10 mb-5 text-black font-semibold">
           Encontre os melhores <span className="text-first">consultores!</span>
         </h1>
-        <p className="text-sm mb-4 text-paragraph max-md:text-xs">
+        {/* <p className="text-sm mb-4 text-paragraph max-md:text-xs">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aperiam quas
           odio, debitis, harum vitae, suscipit nostrum facilis modi deserunt
-        </p>
+        </p> */}
+
+        {users.length === 0 && (
+          <div className="grid grid-cols-3 gap-5 max-md:grid-cols-2 max-[520px]:grid-cols-1  lg:gap-10">
+            <ConsultorCardSkeleton />
+            <ConsultorCardSkeleton />
+            <ConsultorCardSkeleton />
+          </div>
+        )}
 
         <div className="grid grid-cols-3 gap-5 max-md:grid-cols-2 max-[520px]:grid-cols-1  lg:gap-10">
           {users.map((user, idx) => (
@@ -42,6 +51,8 @@ const Home = () => {
               id={user.id}
               firstName={user.firstName}
               lastName={user.lastName}
+              photo={user.photo}
+              expertise={user.expertise}
             />
           ))}
         </div>

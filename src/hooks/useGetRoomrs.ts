@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { IUser, useGetUser } from "./useGetUser";
+import { toast } from "@/components/ui/use-toast";
 
 interface IRoom {
   id: string;
@@ -12,9 +13,7 @@ export const useGetRoom = (consultorId: string | undefined) => {
   const [room, setRoom] = useState<IRoom | null>(null);
   const { user } = useGetUser();
   useEffect(() => {
-    console.log(consultorId);
     const fetchUser = async () => {
-      console.log("1", user?.id);
       if (!user?.id) return;
       await axiosInstance
         .get(`/get-room`, {
@@ -24,7 +23,7 @@ export const useGetRoom = (consultorId: string | undefined) => {
           },
         })
         .then((response) => setRoom(response.data))
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     };
 
     fetchUser();

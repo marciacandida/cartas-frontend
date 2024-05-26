@@ -28,6 +28,7 @@ import {
 import Search from "./search";
 import { Button } from "../ui/button";
 import { useGetRooms } from "@/hooks/useGetRooms";
+import { Skeleton } from "../ui/skeleton";
 const HomeHeader = () => {
   const router = useRouter();
   const { isConnected, socket } = useSocket();
@@ -105,38 +106,52 @@ const HomeHeader = () => {
                       </TooltipContent>
                     </Tooltip>
                   )
-                ) : (
-                  <div></div>
-                )}
+                ) : null}
 
                 <Tooltip delayDuration={200}>
                   <TooltipTrigger className="w-10 h-10 bg-gray-100 rounded-full">
-                    <p className="text-xs">{user.user?.balance}</p>
+                    <p className="text-xs">
+                      {user.user?.type === "CLIENT"
+                        ? user.user?.balance
+                        : user.user?.credit}
+                    </p>
                   </TooltipTrigger>
                   <TooltipContent className="-ml-9">
-                    <p className="text-xs">Crédito</p>
+                    <p className="text-xs">
+                      {user.user?.type === "CLIENT" ? "Crédito" : "Saldo"}
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center space-x-2 ">
-                <div className="max-md:hidden">
-                  <p className=" text-xs">{`${user.user?.firstName} ${user.user?.lastName}`}</p>
-                  <p className="text-paragraph text-[11px]">
-                    {user.user?.type === "CLIENT" ? "Cliente" : "Consultor"}
-                  </p>
-                </div>
-                <Avatar>
-                  <AvatarImage
-                    // src={
-                    //   "https://cdn.sanity.io/images/r4c6igeu/production/e05fa34cbbcb5073f6e089b8efe3cbf6d21fca1e-400x400.jpg"
-                    // }
-                    alt="foto de perfil"
-                    className="object-cover w-9 h-9 rounded-full z-10"
-                  ></AvatarImage>
-                  <AvatarFallback className="">{`${user.user?.firstName[0].toUpperCase()}${user.user?.lastName[0].toUpperCase()}`}</AvatarFallback>
-                </Avatar>
+                {user.user ? (
+                  <>
+                    <div className="max-md:hidden">
+                      <p className=" text-xs">{`${user.user?.firstName} ${user.user?.lastName}`}</p>
+                      <p className="text-paragraph text-[11px]">
+                        {user.user?.type === "CLIENT" ? "Cliente" : "Consultor"}
+                      </p>
+                    </div>
+                    <Avatar>
+                      <AvatarImage
+                        src={user.user?.photo}
+                        alt="foto de perfil"
+                        className="object-cover w-9 h-9 rounded-full z-10"
+                      ></AvatarImage>
+                      <AvatarFallback className="">{`${user.user?.firstName[0].toUpperCase()}${user.user?.lastName[0].toUpperCase()}`}</AvatarFallback>
+                    </Avatar>
+                  </>
+                ) : (
+                  <>
+                    <div className="max-md:hidden items-center  flex-col flex justify-center space-y-2">
+                      <Skeleton className="w-[74px] h-3 rounded-full bg-gray-400" />
+                      <Skeleton className="w-[50px] h-2 rounded-full bg-gray-400" />
+                    </div>
+                    <Skeleton className="w-10 h-10 rounded-full bg-gray-400 mr-1" />
+                  </>
+                )}
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {user.user?.type === "CONSULTOR" && (

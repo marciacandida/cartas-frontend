@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { useGetUser } from "./useGetUser";
+import { toast } from "@/components/ui/use-toast";
 export interface IMessage {
   message: string;
   from: string;
@@ -21,10 +22,9 @@ export const useGetMessages = (receiver: string) => {
           },
         })
         .then((res) => {
-          console.log("worked");
           setMessages(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.error(err));
     };
     return () => {
       fetchMesssages();

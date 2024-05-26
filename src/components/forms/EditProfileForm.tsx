@@ -24,6 +24,14 @@ import { EditProfileSchema } from "./schemas/editProfile";
 import { IUser } from "@/hooks/useGetUser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+interface ProfileData {
+  firstName: string;
+  lastName: string;
+  bio: string;
+  expertise: string;
+  photo?: File;
+}
+
 const EditProfileForm = ({ user }: { user?: IUser }) => {
   const [open, setOpen] = useRecoilState(EditProfileState);
   const [tags, setTags] = useState<Tag[]>([
@@ -52,7 +60,6 @@ const EditProfileForm = ({ user }: { user?: IUser }) => {
     },
   });
   async function onSubmit(values: z.infer<typeof EditProfileSchema>) {
-    setOpen(false);
     setOpen(false);
     const formData = new FormData();
     formData.append("firstName", values.firstName);
@@ -172,46 +179,46 @@ const EditProfileForm = ({ user }: { user?: IUser }) => {
           )}
         />
         {/* <FormField
-            control={form.control}
-            name="location"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="text-xs">Localização</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Descrição"
-                    className="text-xs h-9"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription></FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="text-xs">Localização</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Descrição"
+                      className="text-xs h-9"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
         {/* <FormField
-            control={form.control}
-            name="skills"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel className="text-xs">Qualificações</FormLabel>
-                <FormControl>
-                  <TagInput
-                    {...field}
-                    placeholder="Frontend"
-                    tags={tags}
-                    className="text-xs h-9"
-                    setTags={(newTags) => {
-                      setTags(newTags);
-                      setValue("skills", newTags as [Tag, ...Tag[]]);
-                    }}
-                  />
-                </FormControl>
-                <FormDescription></FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
+              control={form.control}
+              name="skills"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel className="text-xs">Qualificações</FormLabel>
+                  <FormControl>
+                    <TagInput
+                      {...field}
+                      placeholder="Frontend"
+                      tags={tags}
+                      className="text-xs h-9"
+                      setTags={(newTags) => {
+                        setTags(newTags);
+                        setValue("skills", newTags as [Tag, ...Tag[]]);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription></FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
 
         <FormField
           control={form.control}
